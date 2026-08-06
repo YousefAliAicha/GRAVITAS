@@ -51,11 +51,18 @@
       cancelAnimationFrame(activeAnimId);
       activeAnimId = null;
     }
+    // Keep the previous doc readable — never leave it wiped blank.
     if (activeSectionId && activeSectionId !== sectionId) {
       var prev = document.getElementById(activeSectionId);
-      if (prev) resetSection(prev);
+      if (prev) showInstant(prev);
     }
     activeSectionId = sectionId;
+
+    // Revisit: show finished content immediately (no blank flash).
+    if (section.classList.contains("doc-typing-done")) {
+      showInstant(section);
+      return;
+    }
 
     resetSection(section);
 
@@ -65,7 +72,10 @@
     }
 
     var lines = Array.prototype.slice.call(getLines(section));
-    if (!lines.length) return;
+    if (!lines.length) {
+      showInstant(section);
+      return;
+    }
 
     var payloads = lines.map(function (line) {
       return {

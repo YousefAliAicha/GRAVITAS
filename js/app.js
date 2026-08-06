@@ -692,32 +692,36 @@
   var STAGE_TOP_THRESHOLD = window.Gravitas.Constants.app.stageTopThreshold;
 
   if (registerScroll && stageEl) {
+    // Play About/Contact typewriter whenever those sections enter view
+    // (button jump OR manual scroll). Without this, desktop scroll into an
+    // unplayed doc leaves empty data-text paragraphs = blank page.
+    if (typeof IntersectionObserver === "function") {
+      var typedOnce = {};
+      var docObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var id = entry.target.id;
+            if (window.Gravitas.DocTypewriter) {
+              window.Gravitas.DocTypewriter.play(id);
+            }
+            if (!typedOnce[id]) typedOnce[id] = true;
+          });
+        },
+        {
+          root: registerScroll,
+          threshold: window.Gravitas.Constants.app.intersectionThreshold,
+          rootMargin: "0px 0px -12% 0px",
+        },
+      );
+      ["view-about", "view-contact"].forEach(function (id) {
+        var section = document.getElementById(id);
+        if (section) docObserver.observe(section);
+      });
+    }
+
     if (IS_MOBILE) {
       unlockRegister();
-
-      // Play about/contact typewriter when those sections scroll into view
-      if (typeof IntersectionObserver === "function") {
-        var typedOnce = {};
-        var docObserver = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) return;
-              var id = entry.target.id;
-              if (typedOnce[id]) return;
-              typedOnce[id] = true;
-              if (window.Gravitas.DocTypewriter) {
-                window.Gravitas.DocTypewriter.play(id);
-              }
-              docObserver.unobserve(entry.target);
-            });
-          },
-          { root: registerScroll, threshold: window.Gravitas.Constants.app.intersectionThreshold, rootMargin: "0px 0px -10% 0px" },
-        );
-        ["view-about", "view-contact"].forEach(function (id) {
-          var section = document.getElementById(id);
-          if (section) docObserver.observe(section);
-        });
-      }
     } else {
       registerScroll.addEventListener(
         "scroll",
