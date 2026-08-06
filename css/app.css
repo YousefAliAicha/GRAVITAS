@@ -818,6 +818,23 @@ a.field-row .fvalue,
   border-color: rgba(198, 138, 46, 0.45);
 }
 
+.project-row .p-open {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--scan-teal);
+  opacity: 0.55;
+  white-space: nowrap;
+  transition: opacity var(--t-fast) linear;
+}
+
+.project-row:hover .p-open,
+.project-row:focus-visible .p-open {
+  opacity: 1;
+}
+
 .project-row .p-status {
   font-size: var(--text-2xs);
   font-weight: 600;

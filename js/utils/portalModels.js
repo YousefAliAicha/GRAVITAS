@@ -388,7 +388,7 @@
   }
 
   // =========================================================================
-  // [2] GATE 2: CREATIVE_TECH_ (SPLICE ENGINE)
+  // [2] GATE 3 / STARTUP_ (SPLICE ENGINE) — also used as project model
   // =========================================================================
   function buildSpliceEngine() {
     var group = new THREE.Group();
@@ -1906,15 +1906,17 @@
   window.Gravitas = window.Gravitas || {};
   window.Gravitas.PortalModels = {
     // 1. ORIGINAL DETAILED GATE BUILDER
+    // Flagship models match the one featured project per gate/track:
+    // systems → AEGIS, creative → RAYBORN, startup → SPLICE-ENGINE
     build: function (track, opts) {
       skipBlueprintEdges = !!(opts && opts.bayMode);
       try {
         if (track === "systems") {
           return buildAegisRadar();
         } else if (track === "creative") {
-          return buildSpliceEngine();
+          return buildRaybornTerminal();
         } else if (track === "startup") {
-          return buildSentinelController();
+          return buildSpliceEngine();
         }
         return buildAegisRadar();
       } catch (e) {

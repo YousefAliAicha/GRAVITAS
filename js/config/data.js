@@ -8,7 +8,7 @@
 // TO MOVE A PROJECT TO A DIFFERENT PATH:
 //   Change its `track` field to one of: "systems", "creative", "startup"
 //
-// TO SHOW/HIDE A PROJECT ON ITS TRACK'S MAIN VIEW (max 3 shown per track):
+// TO SHOW/HIDE A PROJECT ON ITS TRACK'S MAIN VIEW (one flagship per track):
 //   Set `featured: true` / `featured: false`
 //   It ALWAYS shows in Archive either way — nothing is ever fully hidden,
 //   only pulled from the spotlight.
@@ -47,7 +47,7 @@ const PROJECT_LIST = [
     desc: "ATmega328P adaptive traffic-light FSM — pedestrian, night mode, vehicle detect",
     status: "READY",
     track: "systems",
-    featured: true,
+    featured: false,
     tools: ["ATmega328P", "C++", "Arduino UNO", "HC-SR04", "LDR"],
     details:
       "Adaptive traffic-light finite state machine on Arduino UNO R3 / ATmega328P. Pedestrian preemption, LDR-gated night mode, HC-SR04 vehicle detection, and a multiplexed 7-segment countdown — fully non-blocking, no delay()-stuck loops. Timing and transitions are tuned against real traffic-load patterns rather than a fixed cycle. Firmware and docs live in the public repo.",
@@ -60,7 +60,7 @@ const PROJECT_LIST = [
     desc: "C++ Monte Carlo ballistic simulator — RK4, Mach drag, CEP dispersion",
     status: "READY",
     track: "systems",
-    featured: true,
+    featured: false,
     tools: ["C++17", "CMake", "Monte Carlo", "RK4", "Python viz"],
     details:
       "Monte Carlo ballistic trajectory simulator in C++17. RK4 integration with Mach-dependent drag, altitude-dependent air density, and wind that couples into the drag model — not a single flat Cd parabola. Validates the integrator against closed-form solutions and checks Monte Carlo stability across 100 independent seeds; CEP dispersion is the point, not one deterministic shot. Visualization helpers in Python/Matplotlib. Build with CMake.",
@@ -92,7 +92,7 @@ const PROJECT_LIST = [
     desc: "SDL2 engine",
     status: "QUEUED",
     track: "creative",
-    featured: true,
+    featured: false,
     tools: ["C++", "SDL2"],
     details:
       "A small SDL2 engine built from the ground up in C++ — window/render loop, input handling, and the scaffolding underneath it, built to be understood end to end rather than dropped in as a black box.",
@@ -104,7 +104,7 @@ const PROJECT_LIST = [
     name: "SPLICE-ENGINE",
     desc: "Three-tier MovieLens recommender with Streamlit dashboard",
     status: "READY",
-    track: "creative",
+    track: "startup",
     featured: true,
     tools: ["Python", "LightGBM", "FAISS", "Streamlit", "MovieLens"],
     details:
@@ -118,7 +118,7 @@ const PROJECT_LIST = [
     desc: "Real-time Syria disaster/weather map, gov handoff",
     status: "BUILD_PHASE",
     track: "startup",
-    featured: true,
+    featured: false,
     tools: ["Python", "Leaflet.js", "NASA EONET", "FIRMS"],
     details:
       "Real-time disaster and weather map for Syria, built on Python and Leaflet.js, pulling live feeds from NASA EONET and FIRMS. Built with an eventual handoff to government use in mind — the pipeline has to stay legible to whoever inherits it, not just work on my machine.",
@@ -131,7 +131,7 @@ const PROJECT_LIST = [
     desc: "Classical mechanics sandbox for IE physics dept.",
     status: "QUEUED",
     track: "startup",
-    featured: true,
+    featured: false,
     tools: ["JavaScript", "Physics simulation"],
     details:
       "Classical mechanics sandbox built for IE's physics department — an interactive JavaScript simulation meant to make forces, motion, and energy visible and adjustable in real time instead of static diagrams in a slide deck.",
@@ -144,7 +144,7 @@ const PROJECT_LIST = [
     desc: "C++ shell / REPL",
     status: "QUEUED",
     track: "startup",
-    featured: true,
+    featured: false,
     tools: ["C++", "POSIX"],
     details:
       "A shell and REPL written in C++ against POSIX, built to understand exactly what a shell is doing between keystroke and syscall — process spawning, piping, and job control, with nothing abstracted away.",
@@ -161,7 +161,7 @@ const PROJECT_LIST = [
 const TRACK_META = {
   systems: { label: "SYSTEMS", sub: "Embedded · Simulation · C++" },
   creative: { label: "CREATIVE TECH", sub: "Graphics · Tooling · Games" },
-  startup: { label: "STARTUP", sub: "Product · Full-Stack · Speed" },
+  startup: { label: "STARTUP", sub: "Product · Recommenders · Speed" },
   // Secret openings (Konami) — route to doc pages, not project tracks
   essays: {
     label: "PERSONAL ESSAYS",

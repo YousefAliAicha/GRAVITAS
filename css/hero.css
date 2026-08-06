@@ -150,6 +150,35 @@ body.hero-gates #hero-overlay {
   pointer-events: none;
 }
 
+#gate-click-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 7.5vh;
+  z-index: 6;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0 16px;
+  max-width: min(92vw, 520px);
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-gold-dim, rgba(232, 221, 199, 0.72));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 420ms var(--snap, ease);
+}
+
+body.hero-gates #gate-click-hint {
+  opacity: 1;
+}
+
+#pager-track.in-app #gate-click-hint {
+  opacity: 0;
+}
+
 body.hero-gates .hero-hud {
   opacity: 0;
   pointer-events: none;

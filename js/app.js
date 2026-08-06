@@ -60,7 +60,8 @@
       proofTag +
       '<span class="p-status">' +
       formatStatus(p.status) +
-      '</span><span class="p-dot"></span></span>';
+      '</span><span class="p-open" aria-hidden="true">Open</span>' +
+      '<span class="p-dot"></span></span>';
 
     function handleHoverStart() {
       if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.hoverProject) {
@@ -755,8 +756,8 @@
       bayTitle.innerHTML =
         "ARCHIVE" + '<span class="sub">FULL PROJECT LOG</span>';
       stripEyebrow.textContent = IS_MOBILE
-        ? "All projects"
-        : "ARCHIVE · ALL TRACKS";
+        ? "All projects — tap to open"
+        : "ARCHIVE · CLICK ANY PROJECT TO OPEN";
       recTag.textContent = "LOG";
       renderArchive();
     } else if (key === "about") {
@@ -779,8 +780,8 @@
       var t = TRACKS[key];
       bayTitle.innerHTML = t.label + '<span class="sub">' + t.sub + "</span>";
       stripEyebrow.textContent = IS_MOBILE
-        ? "Projects"
-        : "ACTIVE TRACK · " + t.label;
+        ? "Flagship — tap to open"
+        : "FLAGSHIP · CLICK TO OPEN DETAILS";
       recTag.textContent = "LIVE";
       renderProjects(key);
     }
