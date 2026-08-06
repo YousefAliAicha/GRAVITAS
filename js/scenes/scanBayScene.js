@@ -68,15 +68,15 @@
   }
 
   var darkStoneMat = new THREE.MeshStandardMaterial({
-    color: 0xc9a26a,
-    roughness: 0.8,
-    metalness: 0.06,
+    color: 0xa88452,
+    roughness: 0.88,
+    metalness: 0.04,
   });
 
   var goldMat = new THREE.MeshStandardMaterial({
-    color: 0xc9944a,
-    roughness: 0.48,
-    metalness: 0.62,
+    color: 0xb8843a,
+    roughness: 0.55,
+    metalness: 0.5,
   });
 
   var lapisMat = new THREE.MeshStandardMaterial({
@@ -93,13 +93,13 @@
     canvas.height = 256;
     var ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "#c9a26a";
+    ctx.fillStyle = "#a88452";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (var i = 0; i < 90; i++) {
       var x = Math.random() * canvas.width;
       var w = 0.6 + Math.random() * 1.8;
-      var shade = Math.random() < 0.5 ? "#a8814c" : "#e8c68e";
+      var shade = Math.random() < 0.5 ? "#8a6a3c" : "#c4a06e";
       ctx.globalAlpha = 0.1 + Math.random() * 0.18;
       ctx.fillStyle = shade;
       ctx.fillRect(x, 0, w, canvas.height);
@@ -279,22 +279,22 @@
   );
 
   scene.fog = new THREE.FogExp2(C.scanBay.fog.color, C.scanBay.fog.density);
-  scene.add(new THREE.AmbientLight(0xdba876, 0.95));
-  var coolFill = new THREE.PointLight(0x6fa0b0, 0.22, 20, 1.6);
+  scene.add(new THREE.AmbientLight(0xc49a6a, 0.62));
+  var coolFill = new THREE.PointLight(0x6fa0b0, 0.1, 20, 1.6);
   coolFill.position.set(0, 4.5, -3);
   scene.add(coolFill);
 
-  var bayKeyLight = new THREE.DirectionalLight(0xffd9a0, 1.95);
+  var bayKeyLight = new THREE.DirectionalLight(0xffd9a0, 1.35);
   bayKeyLight.position.set(-14, 6, 10);
   scene.add(bayKeyLight);
 
-  var pedestalSpotlight = new THREE.SpotLight(0xffe6a3, 2.7);
+  var pedestalSpotlight = new THREE.SpotLight(0xffe6a3, 1.9);
   pedestalSpotlight.position.set(0, 7.5, 0);
   pedestalSpotlight.target.position.set(0, 0.2, 0);
   pedestalSpotlight.angle = Math.PI / 3;
-  pedestalSpotlight.penumbra = 0.5;
-  pedestalSpotlight.decay = 1.0;
-  pedestalSpotlight.distance = 20;
+  pedestalSpotlight.penumbra = 0.55;
+  pedestalSpotlight.decay = 1.15;
+  pedestalSpotlight.distance = 18;
   scene.add(pedestalSpotlight);
   scene.add(pedestalSpotlight.target);
 
@@ -305,8 +305,8 @@
   );
   fillLightZs = fillLightZs.slice(0, maxFillPairs);
   fillLightZs.forEach(function (z, i) {
-    var intensity = i === 0 ? 0.55 : 0.38;
-    var templeFillLight = new THREE.PointLight(0xffcf8f, intensity, 16, 1.6);
+    var intensity = i === 0 ? 0.32 : 0.22;
+    var templeFillLight = new THREE.PointLight(0xffcf8f, intensity, 14, 1.7);
     templeFillLight.position.set(3.2, 4.2, z);
     scene.add(templeFillLight);
     var templeFillLight2 = templeFillLight.clone();
@@ -420,14 +420,14 @@
   }
 
   var mountainRockMat = new THREE.MeshStandardMaterial({
-    color: 0xa9834f,
-    roughness: 0.92,
-    metalness: 0.03,
+    color: 0x8a6a3e,
+    roughness: 0.94,
+    metalness: 0.02,
     flatShading: true,
   });
   var mountainRockMatFar = new THREE.MeshStandardMaterial({
-    color: 0xc79b62,
-    roughness: 0.94,
+    color: 0x9a7848,
+    roughness: 0.95,
     metalness: 0.02,
     flatShading: true,
   });
@@ -508,8 +508,10 @@
   environmentGroup.add(caveBackdrop);
 
   var cloudMat = new THREE.MeshBasicMaterial({
-    color: 0xfff2df,
-    fog: false,
+    color: 0xc9b59a,
+    fog: true,
+    transparent: true,
+    opacity: 0.72,
   });
 
   function buildCloud(puffCount, scale) {

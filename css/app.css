@@ -587,12 +587,7 @@ a.field-row .fvalue,
 #scan-bay {
   flex: 4;
   position: relative;
-  background: radial-gradient(
-    ellipse at 50% 38%,
-    #1c2436 0%,
-    #10151f 55%,
-    #0c0e14 100%
-  );
+  background: radial-gradient(ellipse at 50% 38%, #11141d 0%, var(--void) 74%);
   min-height: 0;
   width: 100%;
   overflow: hidden;
