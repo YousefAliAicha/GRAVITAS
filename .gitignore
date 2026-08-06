@@ -1,0 +1,3 @@
+# Real easter-egg codes — local only. Copy from the .example.js file.
+# Live site gets this file from the EASTER_EGGS_CONFIG GitHub Actions secret.
+js/config/easter-eggs.config.js
