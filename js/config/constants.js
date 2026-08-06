@@ -106,7 +106,7 @@ window.Gravitas.Constants = {
     clearAlpha: 0.0,
     fog: {
       color: 0xd8a86a,
-      density: 0.0055,
+      density: 0.009,
     },
     camera: {
       near: 0.1,

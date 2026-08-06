@@ -279,22 +279,22 @@
   );
 
   scene.fog = new THREE.FogExp2(C.scanBay.fog.color, C.scanBay.fog.density);
-  scene.add(new THREE.AmbientLight(0xe8d2b0, 1.35));
-  var coolFill = new THREE.PointLight(0x8ec4d4, 0.55, 22, 1.4);
+  scene.add(new THREE.AmbientLight(0xdba876, 0.95));
+  var coolFill = new THREE.PointLight(0x6fa0b0, 0.22, 20, 1.6);
   coolFill.position.set(0, 4.5, -3);
   scene.add(coolFill);
 
-  var bayKeyLight = new THREE.DirectionalLight(0xffe2b5, 2.6);
+  var bayKeyLight = new THREE.DirectionalLight(0xffd9a0, 1.95);
   bayKeyLight.position.set(-14, 6, 10);
   scene.add(bayKeyLight);
 
-  var pedestalSpotlight = new THREE.SpotLight(0xffefc2, 3.6);
+  var pedestalSpotlight = new THREE.SpotLight(0xffe6a3, 2.7);
   pedestalSpotlight.position.set(0, 7.5, 0);
   pedestalSpotlight.target.position.set(0, 0.2, 0);
   pedestalSpotlight.angle = Math.PI / 3;
-  pedestalSpotlight.penumbra = 0.45;
+  pedestalSpotlight.penumbra = 0.5;
   pedestalSpotlight.decay = 1.0;
-  pedestalSpotlight.distance = 22;
+  pedestalSpotlight.distance = 20;
   scene.add(pedestalSpotlight);
   scene.add(pedestalSpotlight.target);
 
@@ -305,8 +305,8 @@
   );
   fillLightZs = fillLightZs.slice(0, maxFillPairs);
   fillLightZs.forEach(function (z, i) {
-    var intensity = i === 0 ? 0.9 : 0.65;
-    var templeFillLight = new THREE.PointLight(0xffd7a0, intensity, 18, 1.4);
+    var intensity = i === 0 ? 0.55 : 0.38;
+    var templeFillLight = new THREE.PointLight(0xffcf8f, intensity, 16, 1.6);
     templeFillLight.position.set(3.2, 4.2, z);
     scene.add(templeFillLight);
     var templeFillLight2 = templeFillLight.clone();
