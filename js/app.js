@@ -40,6 +40,13 @@
     var trackTag = showTrack
       ? '<span class="p-track">' + p.trackLabel + "</span>"
       : "";
+    var proofTag = p.demo
+      ? '<span class="p-proof p-proof--live">Live</span>'
+      : p.video
+        ? '<span class="p-proof p-proof--video">Video</span>'
+        : p.repo
+          ? '<span class="p-proof">Repo</span>'
+          : "";
     row.innerHTML =
       '<span class="p-info">' +
       '<span class="p-name">' +
@@ -50,6 +57,7 @@
       "</span></span>" +
       '<span class="p-meta">' +
       trackTag +
+      proofTag +
       '<span class="p-status">' +
       formatStatus(p.status) +
       '</span><span class="p-dot"></span></span>';
@@ -185,15 +193,44 @@
       p.details || "No additional engineering notes yet — check back soon.";
 
     detailDemo.innerHTML = "";
+    var links = [];
     if (p.demo) {
-      var demoNote = document.createElement("span");
-      demoNote.className = "detail-demo-placeholder";
-      demoNote.textContent = p.demo;
-      detailDemo.appendChild(demoNote);
+      links.push({ label: "Live demo", url: p.demo, primary: true });
+    }
+    if (p.video) {
+      links.push({ label: "Watch demo", url: p.video, primary: !p.demo });
+    }
+    if (p.repo) {
+      links.push({ label: "Repository", url: p.repo, primary: false });
+    }
+    (p.related || []).forEach(function (rel) {
+      if (rel && rel.url) {
+        links.push({
+          label: rel.label || "Related",
+          url: rel.url,
+          primary: false,
+        });
+      }
+    });
+
+    if (links.length) {
+      var linkRow = document.createElement("div");
+      linkRow.className = "detail-proof-links";
+      links.forEach(function (item) {
+        var a = document.createElement("a");
+        a.className =
+          "detail-proof-link" + (item.primary ? " is-primary" : "");
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = item.label;
+        linkRow.appendChild(a);
+      });
+      detailDemo.appendChild(linkRow);
     } else {
       var placeholder = document.createElement("span");
       placeholder.className = "detail-demo-placeholder";
-      placeholder.textContent = "Demo coming soon.";
+      placeholder.textContent = "Demo / repo links coming soon.";
       detailDemo.appendChild(placeholder);
     }
   }

@@ -795,6 +795,29 @@ a.field-row .fvalue,
   white-space: nowrap;
 }
 
+.project-row .p-proof {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.project-row .p-proof--live {
+  color: var(--scan-teal);
+  border-color: rgba(43, 184, 176, 0.45);
+}
+
+.project-row .p-proof--video {
+  color: var(--sb-gold, var(--ochre));
+  border-color: rgba(198, 138, 46, 0.45);
+}
+
 .project-row .p-status {
   font-size: var(--text-2xs);
   font-weight: 600;
@@ -1143,7 +1166,8 @@ a.field-row .fvalue,
 }
 
 .detail-demo {
-  min-height: 160px;
+  min-height: 120px;
+  padding: 18px 20px;
   background: var(--concrete-raised);
   border: 1px dashed var(--ochre-dim);
   border-radius: 3px;
@@ -1159,6 +1183,56 @@ a.field-row .fvalue,
   letter-spacing: var(--ls-label);
   color: var(--text-muted);
   text-transform: uppercase;
+}
+
+.detail-proof-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+.detail-proof-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--ochre-dim);
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    color var(--t-fast) linear,
+    border-color var(--t-fast) linear,
+    background var(--t-fast) linear;
+}
+
+.detail-proof-link:hover,
+.detail-proof-link:focus-visible {
+  color: var(--sb-blue-bright, var(--lapis));
+  border-color: var(--sb-blue-bright, var(--lapis));
+  background: rgba(16, 91, 163, 0.12);
+  outline: none;
+}
+
+.detail-proof-link.is-primary {
+  color: var(--sb-gold, var(--ochre));
+  border-color: var(--sb-gold, var(--ochre));
+  background: rgba(198, 138, 46, 0.08);
+}
+
+.detail-proof-link.is-primary:hover,
+.detail-proof-link.is-primary:focus-visible {
+  color: var(--sb-blue-bright, var(--lapis));
+  border-color: var(--sb-blue-bright, var(--lapis));
 }
 
 /* PAGE 2: ENGINEERING NOTES */
