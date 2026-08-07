@@ -194,95 +194,94 @@
   var mosaicTex = createMosaicTexture(256);
   var gunmetalTex = createGunmetalTexture(256);
 
-  // =========================================================================
-  // MATERIAL SYSTEM
-  // =========================================================================
+  // MATERIAL SYSTEM — exaggerate family differences:
+  // stone/brick chalky, metals mirror-like, foliage muted for hierarchy.
   var basaltMat = new THREE.MeshStandardMaterial({
     color: 0xb88b4a,
-    roughness: 0.82,
-    metalness: 0.05,
+    roughness: 0.92,
+    metalness: 0.02,
     map: brickTex,
     bumpMap: brickTex,
-    bumpScale: 0.02,
+    bumpScale: 0.028,
   });
 
   var goldMat = new THREE.MeshStandardMaterial({
     color: 0xd1a14c,
-    roughness: 0.32,
-    metalness: 0.85,
+    roughness: 0.18,
+    metalness: 0.95,
   });
 
   var lapisMat = new THREE.MeshStandardMaterial({
     color: 0x105ba3,
-    roughness: 0.28,
-    metalness: 0.4,
+    roughness: 0.22,
+    metalness: 0.55,
   });
 
   var mosaicTileMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: 0.45,
-    metalness: 0.2,
+    roughness: 0.55,
+    metalness: 0.12,
     map: mosaicTex,
     bumpMap: mosaicTex,
-    bumpScale: 0.015,
+    bumpScale: 0.018,
   });
 
   var lapisAccentMat = new THREE.MeshStandardMaterial({
     color: 0x105ba3,
-    roughness: 0.3,
-    metalness: 0.4,
+    roughness: 0.24,
+    metalness: 0.5,
     emissive: 0x082e5e,
-    emissiveIntensity: 0.25,
+    emissiveIntensity: 0.3,
   });
 
   var darkIronMat = new THREE.MeshStandardMaterial({
-    color: 0x221d1a,
-    roughness: 0.55,
-    metalness: 0.82,
+    color: 0x1a1614,
+    roughness: 0.38,
+    metalness: 0.92,
   });
 
   var blackGlassMaterial = new THREE.MeshStandardMaterial({
     color: 0x060709,
-    roughness: 0.12,
-    metalness: 0.25,
+    roughness: 0.1,
+    metalness: 0.3,
   });
 
   var gateGlassMaterial = new THREE.MeshStandardMaterial({
     color: 0x0a0d10,
-    roughness: 0.08,
-    metalness: 0.15,
+    roughness: 0.06,
+    metalness: 0.2,
     transparent: true,
     opacity: 0.58,
   });
 
   var waterlineMat = new THREE.MeshStandardMaterial({
     color: 0x3df0e6,
-    roughness: 0.2,
-    metalness: 0.6,
+    roughness: 0.15,
+    metalness: 0.7,
     emissive: 0x1a8c87,
-    emissiveIntensity: 0.6,
+    emissiveIntensity: 0.65,
     transparent: true,
     opacity: 0.75,
   });
 
   var foliageMatA = new THREE.MeshStandardMaterial({
-    color: 0x3f5d34,
-    roughness: 0.85,
-    metalness: 0.02,
+    color: 0x2a3a28,
+    roughness: 0.95,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var foliageMatB = new THREE.MeshStandardMaterial({
-    color: 0x5c7a3d,
-    roughness: 0.8,
-    metalness: 0.02,
+    color: 0x354830,
+    roughness: 0.92,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var foliageMatGold = new THREE.MeshStandardMaterial({
-    color: 0x8a7337,
-    roughness: 0.65,
-    metalness: 0.25,
+    color: 0x5a4a28,
+    roughness: 0.88,
+    metalness: 0.08,
     flatShading: true,
   });
 
@@ -315,11 +314,11 @@
 
   var sandyFloorMat = new THREE.MeshStandardMaterial({
     color: 0xc8b288,
-    roughness: 0.88,
-    metalness: 0.05,
+    roughness: 0.94,
+    metalness: 0.02,
     map: sandGrainTex,
     bumpMap: sandGrainTex,
-    bumpScale: 0.018,
+    bumpScale: 0.022,
   });
   
 
@@ -492,15 +491,15 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
   var caveRadius = Math.max(58, structureBoundingRadius * 4.6);
 
   var cavernMat = new THREE.MeshStandardMaterial({
-    color: 0x100c09,
-    roughness: 0.98,
-    metalness: 0.02,
+    color: 0x0c0908,
+    roughness: 0.99,
+    metalness: 0.0,
     flatShading: true,
     side: THREE.BackSide,
   });
 
   var cavernShadowMat = new THREE.MeshStandardMaterial({
-    color: 0x17100d,
+    color: 0x0a0807,
     roughness: 1.0,
     metalness: 0.0,
     flatShading: true,
@@ -508,23 +507,23 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
   });
 
   var mountainRockMat = new THREE.MeshStandardMaterial({
-    color: 0x1c1410,
-    roughness: 0.95,
-    metalness: 0.03,
+    color: 0x15100d,
+    roughness: 0.98,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var mountainRockMatFar = new THREE.MeshStandardMaterial({
-    color: 0x140f0b,
-    roughness: 0.97,
-    metalness: 0.02,
+    color: 0x0d0b0a,
+    roughness: 1.0,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var stalactiteMat = new THREE.MeshStandardMaterial({
-    color: 0x211710,
-    roughness: 0.9,
-    metalness: 0.04,
+    color: 0x18120e,
+    roughness: 0.96,
+    metalness: 0.0,
     flatShading: true,
   });
 
@@ -689,11 +688,12 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
 
 buildCaveEnvironment(14.0, scene);
 
-// LIGHTING SETUP
-var ambientLight = new THREE.AmbientLight(0x281e15, 0.25);
+// LIGHTING SETUP — stronger FG/MG/BG separation via cooler fill, teal rim,
+// and a slightly hotter temple accent against lower ambient/key.
+var ambientLight = new THREE.AmbientLight(0x1a1614, 0.16);
 scene.add(ambientLight);
 
-var keySunLight = new THREE.DirectionalLight(0xffd8a8, 2.8);
+var keySunLight = new THREE.DirectionalLight(0xffd8a8, 2.35);
 keySunLight.position.set(-22, 18, 16);
 keySunLight.target.position.set(0, 0, -3.5);
 keySunLight.castShadow = true;
@@ -710,15 +710,15 @@ keySunLight.shadow.normalBias = 0.04;
 scene.add(keySunLight);
 scene.add(keySunLight.target);
 
-var tealRimLight = new THREE.PointLight(0x2bb8b0, 0.45, 28);
-tealRimLight.position.set(-10, 8, -12);
+var tealRimLight = new THREE.PointLight(0x2bb8b0, 0.85, 32);
+tealRimLight.position.set(-9, 7.5, -10);
 scene.add(tealRimLight);
 
-var duskFillLight = new THREE.DirectionalLight(0x105ba3, 0.3);
-duskFillLight.position.set(14, -2, 10);
+var duskFillLight = new THREE.DirectionalLight(0x3a6ea5, 0.55);
+duskFillLight.position.set(14, -1, 10);
 scene.add(duskFillLight);
 
-var templeAccentLight = new THREE.PointLight(0xffa044, 1.2, 14);
+var templeAccentLight = new THREE.PointLight(0xffa044, 1.55, 15);
 templeAccentLight.position.set(0, 4.2, -6.2);
 scene.add(templeAccentLight);
 
@@ -1853,10 +1853,10 @@ var emblemMat = null;
     normalMap: maps.normal,
     normalScale: new THREE.Vector2(1, 1),
     roughnessMap: maps.roughness,
-    roughness: 0.62,
-    metalness: 0.68,
+    roughness: 0.42,
+    metalness: 0.78,
     emissive: 0xffcf8a,
-    emissiveIntensity: 0.05,
+    emissiveIntensity: 0.12,
     transparent: true,
     alphaTest: 0.3,
     side: THREE.DoubleSide,
@@ -2096,10 +2096,10 @@ var activeEnteredGate = null;
   var crenelY = plaqueY + 0.24 + 0.12;
   var crenelMat = new THREE.MeshStandardMaterial({
     color: 0xd1a14c,
-    roughness: 0.28,
-    metalness: 0.9,
+    roughness: 0.16,
+    metalness: 0.96,
     emissive: 0x3a2708,
-    emissiveIntensity: 0.35,
+    emissiveIntensity: 0.4,
   });
   for (var cn = 0; cn < 5; cn++) {
     var crenelGeo = new THREE.BoxGeometry(0.24, 0.24, 0.5);
@@ -2124,8 +2124,8 @@ var activeEnteredGate = null;
   var signBackingMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     map: gunmetalTex,
-    roughness: 0.35,
-    metalness: 0.9,
+    roughness: 0.22,
+    metalness: 0.95,
   });
   var signBacking = new THREE.Mesh(
     new THREE.PlaneGeometry(2.42, 0.5),
@@ -2568,22 +2568,22 @@ var secretNicheGroups = [];
     g.userData.hoverGlowOuterMat = hoverGlowOuterMat;
 
     var labelCanvas = document.createElement("canvas");
-    labelCanvas.width = 256;
-    labelCanvas.height = 48;
+    labelCanvas.width = 384;
+    labelCanvas.height = 64;
     var lctx = labelCanvas.getContext("2d");
-    lctx.clearRect(0, 0, 256, 48);
-    lctx.fillStyle = "rgba(232,220,190,0.85)";
-    lctx.font = '600 18px "JetBrains Mono", monospace';
+    lctx.clearRect(0, 0, 384, 64);
+    lctx.fillStyle = "rgba(240, 230, 210, 0.95)";
+    lctx.font = '700 28px "JetBrains Mono", monospace';
     lctx.textAlign = "center";
     lctx.textBaseline = "middle";
-    lctx.fillText(label, 128, 24);
+    lctx.fillText(label, 192, 32);
     var labelMat = new THREE.MeshBasicMaterial({
       map: new THREE.CanvasTexture(labelCanvas),
       transparent: true,
       depthWrite: false,
     });
     var labelMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.5, 0.28),
+      new THREE.PlaneGeometry(1.85, 0.34),
       labelMat,
     );
     labelMesh.position.set(0, openH / 2 + 0.22, 0.05);
@@ -3343,7 +3343,7 @@ function flyOutOfGate(done) {
   }, C.hero.camera.flyOut.doneDelayMs);
 }
 
-/** Instantly restore the gates framing (used when history Back skips the fly-out). */
+/** Instantly restore the gates framing (history Back skips the fly-out). */
 function snapToGatesView(opts) {
   opts = opts || {};
   clearGateFlyTimers();

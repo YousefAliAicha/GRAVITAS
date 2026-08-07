@@ -223,6 +223,79 @@ function flyOutOfGate(done) {
   }, C.hero.camera.flyOut.doneDelayMs);
 }
 
+/** Instantly restore the gates framing (history Back skips the fly-out). */
+function snapToGatesView(opts) {
+  opts = opts || {};
+  clearGateFlyTimers();
+  isPortalFlyThrough = false;
+  activeEnteredGate = null;
+
+  var target = getAdaptiveGatesCamera();
+  camCurPos.copy(target.pos);
+  camCurLook.copy(target.look);
+  camCurFov = target.fov;
+  camFrom = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camTo = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camAnimStart = null;
+
+  camera.position.copy(camCurPos);
+  camera.up.set(0, 1, 0);
+  camera.lookAt(camCurLook);
+  camera.fov = camCurFov;
+  camera.updateProjectionMatrix();
+
+  if (typeof opts.interactive === "boolean") {
+    gatesInteractive = opts.interactive;
+    if (!opts.interactive && pickedTrack) {
+      setGateHover(pickedTrack, false);
+      pickedTrack = null;
+      renderer.domElement.classList.remove("gate-hovered");
+    }
+  }
+}
+
+/** Instantly restore the wide hero framing. */
+function snapToWideView() {
+  clearGateFlyTimers();
+  isPortalFlyThrough = false;
+  activeEnteredGate = null;
+  gatesInteractive = false;
+  if (pickedTrack) {
+    setGateHover(pickedTrack, false);
+    pickedTrack = null;
+    renderer.domElement.classList.remove("gate-hovered");
+  }
+
+  camCurPos.copy(camWide.pos);
+  camCurLook.copy(camWide.look);
+  camCurFov = camWide.fov;
+  camFrom = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camTo = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camAnimStart = null;
+
+  camera.position.copy(camCurPos);
+  camera.up.set(0, 1, 0);
+  camera.lookAt(camCurLook);
+  camera.fov = camCurFov;
+  camera.updateProjectionMatrix();
+}
+
 renderer.domElement.addEventListener("click", function () {
   if (!gatesInteractive || isPortalFlyThrough || !pickedTrack) return;
   if (window.Gravitas.Hero && typeof window.Gravitas.Hero.onGateClick === "function") {

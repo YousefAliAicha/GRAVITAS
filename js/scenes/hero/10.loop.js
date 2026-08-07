@@ -84,6 +84,8 @@ window.Gravitas.Hero = {
   },
   flyIntoGate: flyIntoGate,
   flyOutOfGate: flyOutOfGate,
+  snapToGates: snapToGatesView,
+  snapToWide: snapToWideView,
   setHover: setGateHover,
   setInteractive: function (on) {
     gatesInteractive = on;

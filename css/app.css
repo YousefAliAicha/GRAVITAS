@@ -545,7 +545,7 @@ a.field-row .fvalue,
 
 #shell.sidebar-collapsed #sidebar-foot button {
   padding: 8px 2px;
-  font-size: 9px;
+  font-size: var(--text-2xs);
   letter-spacing: 0.08em;
 }
 
@@ -652,7 +652,7 @@ a.field-row .fvalue,
 .bay-designation .sub {
   display: block;
   font-family: var(--font-body);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--ls-eyebrow);
   color: var(--text-accent);

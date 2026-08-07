@@ -1,32 +1,65 @@
 // =============================================================================
-// PROJECT DATA — single source of truth
+// PROJECTS — single source of truth for the whole site
 // =============================================================================
-// Every project lives in PROJECT_LIST below, exactly once. Everything else
-// on the page (track views + Archive) is derived from this one list, so you
-// never have to keep two copies of a project in sync.
+// File: js/config/data.js
 //
-// TO MOVE A PROJECT TO A DIFFERENT PATH:
-//   Change its `track` field to one of: "systems", "creative", "startup"
+// HOW TO ADD A PROJECT (usual case — text + links only)
+//   1. Copy the TEMPLATE below.
+//   2. Paste a new object into PROJECT_LIST (order = Archive order within a track).
+//   3. Fill the fields. Omit anything you don't have yet (or set it to null).
+//   4. Save and refresh. No other files needed.
 //
-// TO SHOW/HIDE A PROJECT ON ITS TRACK'S MAIN VIEW (one flagship per track):
-//   Set `featured: true` / `featured: false`
-//   It ALWAYS shows in Archive either way — nothing is ever fully hidden,
-//   only pulled from the spotlight.
+// HOW TO ADD A VIDEO / DEMO LATER (e.g. SENTINEL)
+//   Set `video: "https://youtu.be/…"` or `demo: "https://…"`.
+//   The detail page grows a "Watch demo" / "Live demo" button automatically.
 //
-// TO UPDATE A PROJECT'S STATUS:
-//   Change `status` to any short label. Common ones in use:
-//     "BUILD_PHASE"   — actively being built
-//     "READY"         — finished / shippable
-//     "PLANNING"      — scoped but not started
-//     "QUEUED"        — next up after current work
-//   These are just display strings, not enforced — use whatever reads right.
+// HOW TO MAKE IT THE FLAGSHIP FOR A TRACK
+//   Set `featured: true` on that project and `featured: false` on the previous
+//   flagship for the same track (aim for one flagship per track).
 //
-// OPTIONAL PROOF LINKS (shown in project detail):
-//   repo    — GitHub repository URL
-//   demo    — live demo URL (web app / Pages)
-//   video   — demo video URL (YouTube, etc.)
-//   related — [{ label, url }] for sibling repos / writeups
+// OPTIONAL LATER: custom 3D scan-bay model
+//   Register a builder in js/utils/portalModels.js. Until then, unknown names
+//   fall back to a generic flagship mesh — the dossier still works fine.
+//
+// URL SLUG
+//   Derived from `name` (e.g. "SPLICE-ENGINE" → /startup/splice-engine/).
+//
+// ---------------------------------------------------------------------------
+// TEMPLATE — copy from here ↓
+// ---------------------------------------------------------------------------
+//  {
+//    name: "MY-PROJECT",              // required — title + URL slug
+//    track: "systems",                // required — "systems" | "creative" | "startup"
+//    featured: false,                 // true = flagship card on that track
+//    status: "READY",                 // any label: READY | BUILD_PHASE | PLANNING | QUEUED …
+//    desc: "Short card blurb for the list.",
+//    details: "Longer engineering write-up shown on the detail page.",
+//    tools: ["Skill A", "Skill B", "Stack item"],
+//    repo: "https://github.com/you/repo",   // optional
+//    demo: "https://you.github.io/demo/",   // optional — live site
+//    video: "https://youtu.be/xxxxxxxxxxx", // optional — add anytime
+//    related: [                            // optional — extra links
+//      { label: "Write-up", url: "https://…" },
+//    ],
+//  },
+// ---------------------------------------------------------------------------
 // =============================================================================
+
+function normalizeProject(p) {
+  return {
+    name: p.name,
+    desc: p.desc || "",
+    status: p.status || "QUEUED",
+    track: p.track,
+    featured: !!p.featured,
+    tools: p.tools ? p.tools.slice() : [],
+    details: p.details || "",
+    demo: p.demo || null,
+    repo: p.repo || null,
+    video: p.video || null,
+    related: p.related ? p.related.slice() : [],
+  };
+}
 
 const PROJECT_LIST = [
   {
@@ -74,6 +107,7 @@ const PROJECT_LIST = [
       "SENTINEL treats the intersection as a real control problem, not a delay()-loop toy. Pedestrian buttons preempt the cycle, an LDR gates night mode, HC-SR04 senses approaching vehicles, and a multiplexed 7-segment display runs a live countdown — all on a fully non-blocking tick. State transitions are tuned against traffic-load patterns instead of a fixed period, so the machine adapts instead of blindly repeating. Firmware and docs are public for inspection and reuse.",
     repo: "https://github.com/YousefAliAicha/sentinel-arduino-firmware",
     demo: null,
+    // When the demo video is ready, set e.g. video: "https://youtu.be/…"
     video: null,
   },
   {
@@ -238,6 +272,11 @@ const PROJECT_LIST = [
   },
 ];
 
+// Normalize once so omitted optional fields never break the UI.
+for (var _pi = 0; _pi < PROJECT_LIST.length; _pi++) {
+  PROJECT_LIST[_pi] = normalizeProject(PROJECT_LIST[_pi]);
+}
+
 // -----------------------------------------------------------------------
 // TRACK METADATA — label/sub-heading shown per track. Doesn't need to
 // change often; project assignment lives entirely in PROJECT_LIST above.
@@ -259,7 +298,6 @@ const TRACK_META = {
   },
 };
 
-
 // -----------------------------------------------------------------------
 // Derived data — do not hand-edit below this line. TRACKS and
 // ARCHIVE_PROJECTS are both computed from PROJECT_LIST + TRACK_META above.
@@ -267,7 +305,6 @@ const TRACK_META = {
 
 const TRACKS = Object.keys(TRACK_META).reduce(function (acc, key) {
   var meta = TRACK_META[key];
-  // Secret keys are doc pages, not project lists
   var projects = meta.secret
     ? []
     : PROJECT_LIST.filter(function (p) {
@@ -282,9 +319,9 @@ const TRACKS = Object.keys(TRACK_META).reduce(function (acc, key) {
   return acc;
 }, {});
 
-// Every project, from every track, always — this is what ARCHIVE_ renders.
-// Sorted by track order (systems, creative, startup) so related projects
-// group together; within a track, kept in PROJECT_LIST order.
+// Every project, from every track, always — this is what ARCHIVE renders.
+// Sorted by track order (systems, creative, startup); within a track,
+// kept in PROJECT_LIST order.
 const ARCHIVE_PROJECTS = PROJECT_LIST.map(function (p) {
   return {
     name: p.name,

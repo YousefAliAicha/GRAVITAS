@@ -1,0 +1,17 @@
+Copyright (c) 2026 Yousef Ali Aicha
+
+All Rights Reserved.
+
+This repository contains the source for the personal GRAVITAS portfolio
+website (code, design, writing, and media unless otherwise noted).
+
+You may view the live site and read this source for learning or reference.
+You may not copy, modify, redistribute, or use this work (in whole or in part)
+for your own portfolio, product, or publication without prior written
+permission from the copyright holder.
+
+Project repositories linked from GRAVITAS (AEGIS, SENTINEL, RAYBORN, etc.)
+carry their own licenses — see each linked repository.
+
+Third-party libraries used at runtime (Three.js, GSAP, fonts) remain under
+their respective licenses.

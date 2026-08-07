@@ -187,95 +187,94 @@
   var mosaicTex = createMosaicTexture(256);
   var gunmetalTex = createGunmetalTexture(256);
 
-  // =========================================================================
-  // MATERIAL SYSTEM
-  // =========================================================================
+  // MATERIAL SYSTEM — exaggerate family differences:
+  // stone/brick chalky, metals mirror-like, foliage muted for hierarchy.
   var basaltMat = new THREE.MeshStandardMaterial({
     color: 0xb88b4a,
-    roughness: 0.82,
-    metalness: 0.05,
+    roughness: 0.92,
+    metalness: 0.02,
     map: brickTex,
     bumpMap: brickTex,
-    bumpScale: 0.02,
+    bumpScale: 0.028,
   });
 
   var goldMat = new THREE.MeshStandardMaterial({
     color: 0xd1a14c,
-    roughness: 0.32,
-    metalness: 0.85,
+    roughness: 0.18,
+    metalness: 0.95,
   });
 
   var lapisMat = new THREE.MeshStandardMaterial({
     color: 0x105ba3,
-    roughness: 0.28,
-    metalness: 0.4,
+    roughness: 0.22,
+    metalness: 0.55,
   });
 
   var mosaicTileMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: 0.45,
-    metalness: 0.2,
+    roughness: 0.55,
+    metalness: 0.12,
     map: mosaicTex,
     bumpMap: mosaicTex,
-    bumpScale: 0.015,
+    bumpScale: 0.018,
   });
 
   var lapisAccentMat = new THREE.MeshStandardMaterial({
     color: 0x105ba3,
-    roughness: 0.3,
-    metalness: 0.4,
+    roughness: 0.24,
+    metalness: 0.5,
     emissive: 0x082e5e,
-    emissiveIntensity: 0.25,
+    emissiveIntensity: 0.3,
   });
 
   var darkIronMat = new THREE.MeshStandardMaterial({
-    color: 0x221d1a,
-    roughness: 0.55,
-    metalness: 0.82,
+    color: 0x1a1614,
+    roughness: 0.38,
+    metalness: 0.92,
   });
 
   var blackGlassMaterial = new THREE.MeshStandardMaterial({
     color: 0x060709,
-    roughness: 0.12,
-    metalness: 0.25,
+    roughness: 0.1,
+    metalness: 0.3,
   });
 
   var gateGlassMaterial = new THREE.MeshStandardMaterial({
     color: 0x0a0d10,
-    roughness: 0.08,
-    metalness: 0.15,
+    roughness: 0.06,
+    metalness: 0.2,
     transparent: true,
     opacity: 0.58,
   });
 
   var waterlineMat = new THREE.MeshStandardMaterial({
     color: 0x3df0e6,
-    roughness: 0.2,
-    metalness: 0.6,
+    roughness: 0.15,
+    metalness: 0.7,
     emissive: 0x1a8c87,
-    emissiveIntensity: 0.6,
+    emissiveIntensity: 0.65,
     transparent: true,
     opacity: 0.75,
   });
 
   var foliageMatA = new THREE.MeshStandardMaterial({
-    color: 0x3f5d34,
-    roughness: 0.85,
-    metalness: 0.02,
+    color: 0x2a3a28,
+    roughness: 0.95,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var foliageMatB = new THREE.MeshStandardMaterial({
-    color: 0x5c7a3d,
-    roughness: 0.8,
-    metalness: 0.02,
+    color: 0x354830,
+    roughness: 0.92,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var foliageMatGold = new THREE.MeshStandardMaterial({
-    color: 0x8a7337,
-    roughness: 0.65,
-    metalness: 0.25,
+    color: 0x5a4a28,
+    roughness: 0.88,
+    metalness: 0.08,
     flatShading: true,
   });
 
@@ -308,10 +307,10 @@
 
   var sandyFloorMat = new THREE.MeshStandardMaterial({
     color: 0xc8b288,
-    roughness: 0.88,
-    metalness: 0.05,
+    roughness: 0.94,
+    metalness: 0.02,
     map: sandGrainTex,
     bumpMap: sandGrainTex,
-    bumpScale: 0.018,
+    bumpScale: 0.022,
   });
   

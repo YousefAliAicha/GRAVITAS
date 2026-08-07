@@ -23,6 +23,7 @@
       setHoverSpeed: function () {},
       setIdleSpeed: function () {},
       resizeBay: function () {},
+      suspendResize: function () {},
       pause: function () {},
       resume: function () {},
       enterFocusMode: function () {},
@@ -198,6 +199,7 @@
       setHoverSpeed: function () {},
       setIdleSpeed: function () {},
       resizeBay: function () {},
+      suspendResize: function () {},
       pause: function () {},
       resume: function () {},
       enterFocusMode: function () {},
@@ -250,6 +252,7 @@
       setHoverSpeed: function () {},
       setIdleSpeed: function () {},
       resizeBay: function () {},
+      suspendResize: function () {},
       pause: function () {},
       resume: function () {},
       enterFocusMode: function () {},
@@ -1004,9 +1007,10 @@
   var isRunning = false;
   var animFrameId = null;
   var lastFrameTime = Date.now();
+  var resizeSuspended = false;
 
   function checkAndResizeCanvas() {
-    if (!bayEl || !renderer) return;
+    if (resizeSuspended || !bayEl || !renderer) return;
     // Measure #scan-bay only — never #view-stage (that includes the list
     // and makes camera.aspect too tall → vertical squash in the bay).
     var w = bayEl.clientWidth;
@@ -1201,6 +1205,9 @@
     setHoverSpeed: function () {},
     setIdleSpeed: function () {},
     resizeBay: resizeBay,
+    suspendResize: function (on) {
+      resizeSuspended = !!on;
+    },
     pause: pause,
     resume: resume,
     enterFocusMode: enterFocusMode,

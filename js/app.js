@@ -631,11 +631,20 @@
 
     if (!window.gsap) {
       shell.classList.toggle("sidebar-collapsed", collapse);
+      if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
+        window.Gravitas.ScanBay.resizeBay();
+      }
       return;
     }
 
     if (sidebarBusy) return;
     sidebarBusy = true;
+
+    // Sidebar width animation constantly resizes #scan-bay; suspending
+    // canvas sync avoids lighting/aspect flicker behind the model.
+    if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.suspendResize) {
+      window.Gravitas.ScanBay.suspendResize(true);
+    }
 
     var fadeEls = document.querySelectorAll(SIDEBAR_FADE_SELECTOR);
     var current =
@@ -650,6 +659,9 @@
       onComplete: function () {
         sidebarBusy = false;
         shell.style.setProperty("--sidebar-w", target + "px");
+        if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.suspendResize) {
+          window.Gravitas.ScanBay.suspendResize(false);
+        }
         if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
           window.Gravitas.ScanBay.resizeBay();
         }

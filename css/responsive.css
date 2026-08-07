@@ -256,6 +256,7 @@
   .mobile-landing-foot {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
     gap: 8px 18px;
     margin-top: 28px;
@@ -265,8 +266,14 @@
 
   .mobile-landing-foot button,
   .mobile-landing-resume {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
     min-height: 44px;
-    padding: 10px 4px;
+    margin: 0;
+    padding: 0 6px;
+    line-height: 1.2;
     font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: 600;
@@ -275,8 +282,11 @@
     color: var(--text-secondary);
     background: none;
     border: none;
+    border-radius: 0;
     cursor: pointer;
     text-decoration: none;
+    appearance: none;
+    -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent;
   }
 

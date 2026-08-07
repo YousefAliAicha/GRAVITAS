@@ -166,15 +166,15 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
   var caveRadius = Math.max(58, structureBoundingRadius * 4.6);
 
   var cavernMat = new THREE.MeshStandardMaterial({
-    color: 0x100c09,
-    roughness: 0.98,
-    metalness: 0.02,
+    color: 0x0c0908,
+    roughness: 0.99,
+    metalness: 0.0,
     flatShading: true,
     side: THREE.BackSide,
   });
 
   var cavernShadowMat = new THREE.MeshStandardMaterial({
-    color: 0x17100d,
+    color: 0x0a0807,
     roughness: 1.0,
     metalness: 0.0,
     flatShading: true,
@@ -182,23 +182,23 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
   });
 
   var mountainRockMat = new THREE.MeshStandardMaterial({
-    color: 0x1c1410,
-    roughness: 0.95,
-    metalness: 0.03,
+    color: 0x15100d,
+    roughness: 0.98,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var mountainRockMatFar = new THREE.MeshStandardMaterial({
-    color: 0x140f0b,
-    roughness: 0.97,
-    metalness: 0.02,
+    color: 0x0d0b0a,
+    roughness: 1.0,
+    metalness: 0.0,
     flatShading: true,
   });
 
   var stalactiteMat = new THREE.MeshStandardMaterial({
-    color: 0x211710,
-    roughness: 0.9,
-    metalness: 0.04,
+    color: 0x18120e,
+    roughness: 0.96,
+    metalness: 0.0,
     flatShading: true,
   });
 
@@ -363,11 +363,12 @@ function buildCaveEnvironment(structureBoundingRadius, parentScene) {
 
 buildCaveEnvironment(14.0, scene);
 
-// LIGHTING SETUP
-var ambientLight = new THREE.AmbientLight(0x281e15, 0.25);
+// LIGHTING SETUP — stronger FG/MG/BG separation via cooler fill, teal rim,
+// and a slightly hotter temple accent against lower ambient/key.
+var ambientLight = new THREE.AmbientLight(0x1a1614, 0.16);
 scene.add(ambientLight);
 
-var keySunLight = new THREE.DirectionalLight(0xffd8a8, 2.8);
+var keySunLight = new THREE.DirectionalLight(0xffd8a8, 2.35);
 keySunLight.position.set(-22, 18, 16);
 keySunLight.target.position.set(0, 0, -3.5);
 keySunLight.castShadow = true;
@@ -384,15 +385,15 @@ keySunLight.shadow.normalBias = 0.04;
 scene.add(keySunLight);
 scene.add(keySunLight.target);
 
-var tealRimLight = new THREE.PointLight(0x2bb8b0, 0.45, 28);
-tealRimLight.position.set(-10, 8, -12);
+var tealRimLight = new THREE.PointLight(0x2bb8b0, 0.85, 32);
+tealRimLight.position.set(-9, 7.5, -10);
 scene.add(tealRimLight);
 
-var duskFillLight = new THREE.DirectionalLight(0x105ba3, 0.3);
-duskFillLight.position.set(14, -2, 10);
+var duskFillLight = new THREE.DirectionalLight(0x3a6ea5, 0.55);
+duskFillLight.position.set(14, -1, 10);
 scene.add(duskFillLight);
 
-var templeAccentLight = new THREE.PointLight(0xffa044, 1.2, 14);
+var templeAccentLight = new THREE.PointLight(0xffa044, 1.55, 15);
 templeAccentLight.position.set(0, 4.2, -6.2);
 scene.add(templeAccentLight);
 

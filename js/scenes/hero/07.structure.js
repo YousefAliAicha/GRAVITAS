@@ -325,22 +325,22 @@ var secretNicheGroups = [];
     g.userData.hoverGlowOuterMat = hoverGlowOuterMat;
 
     var labelCanvas = document.createElement("canvas");
-    labelCanvas.width = 256;
-    labelCanvas.height = 48;
+    labelCanvas.width = 384;
+    labelCanvas.height = 64;
     var lctx = labelCanvas.getContext("2d");
-    lctx.clearRect(0, 0, 256, 48);
-    lctx.fillStyle = "rgba(232,220,190,0.85)";
-    lctx.font = '600 18px "JetBrains Mono", monospace';
+    lctx.clearRect(0, 0, 384, 64);
+    lctx.fillStyle = "rgba(240, 230, 210, 0.95)";
+    lctx.font = '700 28px "JetBrains Mono", monospace';
     lctx.textAlign = "center";
     lctx.textBaseline = "middle";
-    lctx.fillText(label, 128, 24);
+    lctx.fillText(label, 192, 32);
     var labelMat = new THREE.MeshBasicMaterial({
       map: new THREE.CanvasTexture(labelCanvas),
       transparent: true,
       depthWrite: false,
     });
     var labelMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.5, 0.28),
+      new THREE.PlaneGeometry(1.85, 0.34),
       labelMat,
     );
     labelMesh.position.set(0, openH / 2 + 0.22, 0.05);

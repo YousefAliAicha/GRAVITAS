@@ -97,10 +97,10 @@ var activeEnteredGate = null;
   var crenelY = plaqueY + 0.24 + 0.12;
   var crenelMat = new THREE.MeshStandardMaterial({
     color: 0xd1a14c,
-    roughness: 0.28,
-    metalness: 0.9,
+    roughness: 0.16,
+    metalness: 0.96,
     emissive: 0x3a2708,
-    emissiveIntensity: 0.35,
+    emissiveIntensity: 0.4,
   });
   for (var cn = 0; cn < 5; cn++) {
     var crenelGeo = new THREE.BoxGeometry(0.24, 0.24, 0.5);
@@ -125,8 +125,8 @@ var activeEnteredGate = null;
   var signBackingMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     map: gunmetalTex,
-    roughness: 0.35,
-    metalness: 0.9,
+    roughness: 0.22,
+    metalness: 0.95,
   });
   var signBacking = new THREE.Mesh(
     new THREE.PlaneGeometry(2.42, 0.5),

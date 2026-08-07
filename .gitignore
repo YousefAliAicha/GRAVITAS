@@ -1,3 +1,16 @@
+# Local / editor / OS noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+.idea/
+.vscode/
+*.swp
+*~
+
+# Dependencies (none required to run; ignore if added later)
+node_modules/
+
 # Real easter-egg codes — local only. Copy from the .example.js file.
 # Live site gets this file from the EASTER_EGGS_CONFIG GitHub Actions secret.
 js/config/easter-eggs.config.js

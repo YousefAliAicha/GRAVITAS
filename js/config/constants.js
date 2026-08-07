@@ -33,9 +33,11 @@ window.Gravitas.Constants = {
 
   hero: {
     clearColor: 0x0a0806,
+    // Tuned for FG/MG/BG separation: denser cooler fog pulls far rocks
+    // into silhouette so the temple + gates hold midground focus.
     fog: {
-      color: 0x0e0a07,
-      density: 0.014,
+      color: 0x0c0b10,
+      density: 0.022,
     },
     camera: {
       near: 0.1,
@@ -77,10 +79,11 @@ window.Gravitas.Constants = {
         doneDelayMs: 1500,
       },
     },
+    // Dimmed vs earlier (0.5 / 80) so motes don't compete with brand → temple → gates.
     motes: {
-      count: { mobile: 30, desktop: 80 },
-      size: 0.09,
-      opacity: 0.5,
+      count: { mobile: 24, desktop: 55 },
+      size: 0.08,
+      opacity: 0.32,
       color: 0xffdca8,
     },
     parallax: {

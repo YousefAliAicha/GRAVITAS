@@ -73,10 +73,12 @@
 
 #hero-topbar .wordmark {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: var(--text-display);
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
+  color: var(--text-primary);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
 }
 
 #hero-bay {
@@ -115,8 +117,8 @@ body.hero-gates #hero-bay canvas.gate-hovered {
 }
 
 .hero-eyebrow {
-  font-size: 10.5px;
-  letter-spacing: 0.4em;
+  font-size: var(--text-sm);
+  letter-spacing: 0.32em;
   color: var(--scan-teal);
   text-transform: uppercase;
   margin-bottom: 18px;
@@ -130,6 +132,7 @@ body.hero-gates #hero-bay canvas.gate-hovered {
   text-transform: none;
   color: var(--text-primary);
   line-height: var(--lh-snug);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
 }
 
 .hero-byline b {
@@ -158,14 +161,14 @@ body.hero-gates #hero-overlay {
   transform: translateX(-50%);
   margin: 0;
   padding: 0 16px;
-  max-width: min(92vw, 520px);
+  max-width: min(92vw, 560px);
   text-align: center;
   font-family: var(--font-body);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--text-gold-dim, rgba(232, 221, 199, 0.72));
+  color: var(--text-gold-dim, rgba(232, 221, 199, 0.82));
   pointer-events: none;
   opacity: 0;
   transition: opacity 420ms var(--snap, ease);
@@ -229,7 +232,7 @@ body.hero-gates #scroll-cue {
 
 #scroll-cue,
 #ascend-cue {
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--ls-eyebrow);
   color: var(--text-secondary);
@@ -329,7 +332,7 @@ body.hero-gates #ascend-cue {
   top: 10.5%;
   left: 50%;
   transform: translate(-50%, 10px);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: var(--ls-eyebrow);
   color: var(--text-accent);

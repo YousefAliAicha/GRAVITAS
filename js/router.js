@@ -1,11 +1,13 @@
 /**
  * Shareable path router for GitHub Pages (/GRAVITAS/...).
- * Examples:
- *   /GRAVITAS/
+ * Local file:// or plain static servers (no /GRAVITAS base) use hash routes
+ * so portal clicks never navigate away from index.html:
+ *   index.html#/startup/
+ *   index.html#/startup/splice-engine/
+ *
+ * On Pages with base /GRAVITAS:
  *   /GRAVITAS/startup/
  *   /GRAVITAS/startup/splice-engine/
- *   /GRAVITAS/about/
- *   /GRAVITAS/archive/
  */
 (function () {
   var DOCS = { about: 1, contact: 1, essays: 1, favorites: 1 };
@@ -22,6 +24,8 @@
   }
 
   var BASE = detectBase();
+  // Pretty path URLs need SPA fallback (Pages 404.html). Local/file has none.
+  var USE_HASH = !BASE || location.protocol === "file:";
 
   function slugify(name) {
     return String(name || "")
@@ -72,9 +76,12 @@
       } else {
         state.project = p.name;
         if (!state.page || state.page === "archive") {
-          // keep archive if explicitly archive; else use project track
           if (state.page !== "archive") state.page = p.track;
-        } else if (TRACKS[state.page] && state.page !== "archive" && state.page !== p.track) {
+        } else if (
+          TRACKS[state.page] &&
+          state.page !== "archive" &&
+          state.page !== p.track
+        ) {
           state.page = p.track;
         }
       }
@@ -85,15 +92,27 @@
     return state;
   }
 
-  function buildPath(state) {
+  function routeSuffix(state) {
     state = normalizeState(state);
-    var root = BASE || "";
-    if (state.surface !== "app") return root + "/";
+    if (state.surface !== "app") return "/";
     if (state.project) {
       var seg = state.page === "archive" ? "archive" : state.page;
-      return root + "/" + seg + "/" + slugify(state.project) + "/";
+      return "/" + seg + "/" + slugify(state.project) + "/";
     }
-    return root + "/" + state.page + "/";
+    return "/" + state.page + "/";
+  }
+
+  function documentPath() {
+    // Keep the real document (…/index.html or /) so file:// never jumps to /
+    return location.pathname || "/";
+  }
+
+  function buildPath(state) {
+    var suffix = routeSuffix(state);
+    if (USE_HASH) {
+      return documentPath() + location.search + "#" + suffix;
+    }
+    return (BASE || "") + suffix;
   }
 
   function parsePath(pathname) {
@@ -107,6 +126,11 @@
       .map(function (s) {
         return s.toLowerCase();
       });
+    // Drop index.html if present (file:// …/index.html)
+    if (segs.length && /\.html?$/.test(segs[segs.length - 1])) {
+      segs.pop();
+    }
+    // If path still has folder junk before a known route, ignore — hash handles local
     if (!segs.length) return { surface: "landing" };
 
     var a = segs[0];
@@ -123,6 +147,17 @@
       return state;
     }
     return { surface: "landing", unknown: true };
+  }
+
+  function parseHash() {
+    var raw = (location.hash || "").replace(/^#/, "");
+    if (!raw || raw === "/") return { surface: "landing" };
+    return parsePath(raw);
+  }
+
+  function locationState() {
+    if (USE_HASH) return parseHash();
+    return parsePath(location.pathname);
   }
 
   function currentPagerState() {
@@ -148,8 +183,6 @@
             instant: !!opts.instant,
             fromRouter: true,
             force: true,
-            // Only reframe the hero when actually leaving the app
-            // (or aborting a mid-enter). Never on cold bootstrap.
             restoreCamera: leavingApp,
           });
         }
@@ -227,8 +260,12 @@
       if (stored) sessionStorage.removeItem("gravitas-redirect");
     } catch (e) {}
 
-    var pathname = stored || location.pathname;
-    var state = parsePath(pathname);
+    var state;
+    if (stored) {
+      state = parsePath(stored);
+    } else {
+      state = locationState();
+    }
     if (state.unknown) {
       navigate({ surface: "landing" }, { replace: true, instant: true });
       return state;
@@ -247,13 +284,26 @@
   }
 
   window.addEventListener("popstate", function (e) {
-    var st = e.state && e.state.gravitas ? e.state : parsePath(location.pathname);
+    var st = e.state && e.state.gravitas ? e.state : locationState();
     apply(normalizeState(st), { instant: true });
   });
+
+  window.addEventListener("hashchange", function () {
+    if (!USE_HASH || suppressing) return;
+    apply(normalizeState(parseHash()), { instant: true });
+  });
+
+  function resumeHref() {
+    if (BASE) return BASE + "/assets/Yousef-Ali-Aicha-Resume.pdf";
+    // Relative to the document so file:// and local servers both work
+    var dir = documentPath().replace(/[^/]+$/, "");
+    return dir + "assets/Yousef-Ali-Aicha-Resume.pdf";
+  }
 
   window.Gravitas = window.Gravitas || {};
   window.Gravitas.Router = {
     base: BASE,
+    useHash: USE_HASH,
     slugify: slugify,
     buildPath: buildPath,
     parsePath: parsePath,
@@ -270,9 +320,9 @@
       if (bootstrapped) return;
       bootstrapped = true;
       syncFromLocation({ instant: true });
-      var resumeHref = (BASE || "") + "/assets/Yousef-Ali-Aicha-Resume.pdf";
+      var href = resumeHref();
       document.querySelectorAll("[data-resume-link]").forEach(function (el) {
-        el.setAttribute("href", resumeHref);
+        el.setAttribute("href", href);
       });
     },
   };
