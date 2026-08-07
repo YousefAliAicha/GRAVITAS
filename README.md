@@ -169,6 +169,14 @@ Set the secret to the **full file contents** of your local easter-egg config (sa
 
 ---
 
+## SEO
+
+`index.html` ships descriptive title/meta, Open Graph / Twitter cards, canonical URL, and JSON-LD (`Person` + `WebSite` + `ProfilePage`). Crawlers also get [`robots.txt`](robots.txt) and [`sitemap.xml`](sitemap.xml).
+
+Metadata helps discovery; ranking still depends on links, consistency of your name across the web, and time to index. After deploy, submit the sitemap in [Google Search Console](https://search.google.com/search-console).
+
+---
+
 ## License
 
 See [`LICENSE`](LICENSE) — personal portfolio, all rights reserved unless a linked project repo says otherwise.
