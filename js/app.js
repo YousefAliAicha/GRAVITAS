@@ -133,6 +133,12 @@
   var scanBayHomeNextSibling = scanBayEl ? scanBayEl.nextSibling : null;
 
   function mountScanBayInTv() {
+    if (
+      typeof window.Gravitas.isMobileExperience === "function" &&
+      window.Gravitas.isMobileExperience()
+    ) {
+      return;
+    }
     if (!scanBayEl || !detailTvMount) return;
     detailTvMount.appendChild(scanBayEl);
     requestAnimationFrame(function () {
@@ -342,7 +348,9 @@
 
   function closeProjectDetail(opts) {
     opts = opts || {};
-    if (!projectDetail || !detailOpen || detailBusy) return;
+    if (!projectDetail || !detailOpen) return;
+    var forceClose = !!(opts.fromRouter || opts.silent || opts.force);
+    if (detailBusy && !forceClose) return;
 
     if (
       opts.useHistoryBack &&
@@ -397,9 +405,20 @@
       restoreFocus();
     };
 
-    if (!window.gsap) {
-      projectDetail.style.display = "none";
-      projectDetail.style.opacity = "";
+    if (forceClose || !window.gsap) {
+      if (window.gsap) {
+        gsap.killTweensOf([projectDetail].concat(motionEls));
+        gsap.set(projectDetail, {
+          display: "none",
+          y: 0,
+          yPercent: 0,
+          autoAlpha: 1,
+        });
+        gsap.set(motionEls, { clearProps: "opacity,visibility,transform" });
+      } else {
+        projectDetail.style.display = "none";
+        projectDetail.style.opacity = "";
+      }
       finishClose();
       return;
     }

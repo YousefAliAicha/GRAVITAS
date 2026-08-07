@@ -41,6 +41,7 @@
 
   function goToApp(selectedTrack, opts) {
     opts = opts || {};
+    if (IS_MOBILE) opts.instant = true;
     if (busy || pagerState === 1) {
       if (pagerState === 1 && !opts.skipSelect && window.Gravitas.SelectTrack) {
         window.Gravitas.SelectTrack(selectedTrack, {
@@ -152,6 +153,7 @@
 
   function goToLanding(opts) {
     opts = opts || {};
+    if (IS_MOBILE) opts.instant = true;
     var instant = !!opts.instant;
     var force = !!opts.force || instant;
 
@@ -206,7 +208,7 @@
 
     if (instant) {
       clearPortalOverlay();
-      restoreHeroView();
+      if (opts.restoreCamera !== false) restoreHeroView();
       if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
       finishLeave();
       return;
@@ -349,14 +351,8 @@
   if (backBtn) {
     backBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      if (
-        window.Gravitas.Router &&
-        window.Gravitas.Router.canHistoryBack &&
-        window.Gravitas.Router.canHistoryBack()
-      ) {
-        history.back();
-        return;
-      }
+      // Always return to the hero/gates surface — never blind history.back()
+      // (that can leave you on another track or exit the site).
       goToLanding();
     });
   }

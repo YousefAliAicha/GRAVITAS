@@ -270,6 +270,10 @@
       if (bootstrapped) return;
       bootstrapped = true;
       syncFromLocation({ instant: true });
+      var resumeHref = (BASE || "") + "/assets/Yousef-Ali-Aicha-Resume.pdf";
+      document.querySelectorAll("[data-resume-link]").forEach(function (el) {
+        el.setAttribute("href", resumeHref);
+      });
     },
   };
 })();

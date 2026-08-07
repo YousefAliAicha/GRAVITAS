@@ -26,8 +26,13 @@
     window.Gravitas.Hero = {
       toGates: function () {},
       toWide: function () {},
-      flyIntoGate: function () {},
-      flyOutOfGate: function () {},
+      // Call done so pager enter/leave cannot stick busy forever
+      flyIntoGate: function (_track, done) {
+        if (typeof done === "function") done();
+      },
+      flyOutOfGate: function (done) {
+        if (typeof done === "function") done();
+      },
       setHover: function () {},
       setInteractive: function () {},
       onGateClick: null,

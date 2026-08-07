@@ -179,8 +179,6 @@
   var bayEl = document.getElementById("scan-bay");
   if (!bayEl) return;
 
-  // MOBILE ADAPTIVE RENDERING — same simple viewport-width check used in
-  // heroScene.js, kept consistent between the two scenes.
   var C = window.Gravitas.Constants;
   var IS_MOBILE =
     typeof window.Gravitas.isMobileExperience === "function"
@@ -190,16 +188,37 @@
           "(max-width: " + C.mobile.maxWidthPx + "px) and (hover: none)",
         ).matches;
 
+  // Mobile dossier uses a static header — skip WebGL entirely.
+  if (IS_MOBILE) {
+    bayEl.classList.add("scan-bay--static");
+    window.Gravitas = window.Gravitas || {};
+    window.Gravitas.ScanBay = {
+      setActiveModel: function () {},
+      hoverProject: function () {},
+      setHoverSpeed: function () {},
+      setIdleSpeed: function () {},
+      resizeBay: function () {},
+      pause: function () {},
+      resume: function () {},
+      enterFocusMode: function () {},
+      exitFocusMode: function () {},
+      clearExtraHoverModels: function () {},
+      getMemoryInfo: function () {
+        return null;
+      },
+      dispose: function () {},
+    };
+    return;
+  }
+
   var scene = new THREE.Scene();
   var environmentGroup = new THREE.Group();
   scene.add(environmentGroup);
 
-  // Portrait phones need a closer, slightly wider lens so the pedestal
-  // model fills the bay instead of reading as a distant corridor shot.
   var homeCam = C.scanBay.camera.home;
-  var HOME_CAMERA_POS = IS_MOBILE ? homeCam.pos.mobile : homeCam.pos.desktop;
-  var HOME_CAMERA_LOOK = IS_MOBILE ? homeCam.look.mobile : homeCam.look.desktop;
-  var HOME_CAMERA_FOV = IS_MOBILE ? homeCam.fov.mobile : homeCam.fov.desktop;
+  var HOME_CAMERA_POS = homeCam.pos.desktop;
+  var HOME_CAMERA_LOOK = homeCam.look.desktop;
+  var HOME_CAMERA_FOV = homeCam.fov.desktop;
 
   var camera = new THREE.PerspectiveCamera(
     HOME_CAMERA_FOV,
@@ -988,21 +1007,26 @@
 
   function checkAndResizeCanvas() {
     if (!bayEl || !renderer) return;
-    // Use the scan-bay element itself — not its parent (#view-stage), which
-    // also includes the project list and skews the camera aspect ratio.
+    // Measure #scan-bay only — never #view-stage (that includes the list
+    // and makes camera.aspect too tall → vertical squash in the bay).
     var w = bayEl.clientWidth;
     var h = bayEl.clientHeight;
     if (!w || !h || w < 10 || h < 10) return;
 
     var pixelRatio = renderer.getPixelRatio();
+    var bufW = Math.floor(w * pixelRatio);
+    var bufH = Math.floor(h * pixelRatio);
     if (
-      renderer.domElement.width !== Math.floor(w * pixelRatio) ||
-      renderer.domElement.height !== Math.floor(h * pixelRatio)
+      renderer.domElement.width === bufW &&
+      renderer.domElement.height === bufH
     ) {
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h, true);
+      return;
     }
+
+    camera.aspect = w / Math.max(h, 1);
+    camera.updateProjectionMatrix();
+    // Keep CSS (width/height: 100%) as the display size authority.
+    renderer.setSize(w, h, false);
   }
 
   function animateBay() {
@@ -1014,6 +1038,10 @@
     lastFrameTime = now;
     var timeSec = now * 0.001;
     var elapsed = now - hoverChangedAt;
+
+    // Content-strip height changes (archive vs flagship) resize the bay
+    // without a window resize event — resync every frame.
+    checkAndResizeCanvas();
 
     if (activeHoverModel) {
       activeHoverModel.rotation.y += BAY_SPIN;
@@ -1153,6 +1181,19 @@
     if (brandLogo) brandLogo.resize();
   });
 
+  if (typeof ResizeObserver === "function" && bayEl) {
+    var bayResizeObserver = new ResizeObserver(function () {
+      resizeBay();
+    });
+    bayResizeObserver.observe(bayEl);
+  }
+
+  // Layout may still be settling when this module boots (hidden app panel).
+  requestAnimationFrame(function () {
+    resizeBay();
+    requestAnimationFrame(resizeBay);
+  });
+
   window.Gravitas = window.Gravitas || {};
   window.Gravitas.ScanBay = {
     setActiveModel: setActiveModel,
@@ -1170,6 +1211,7 @@
     },
     dispose: function () {
       pause();
+      if (bayResizeObserver) bayResizeObserver.disconnect();
       clearExtraHoverModels();
       Object.keys(baseTrackModels).forEach(function (k) {
         if (baseTrackModels[k]) {
