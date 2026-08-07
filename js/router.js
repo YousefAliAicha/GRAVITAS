@@ -143,10 +143,14 @@
           window.Gravitas.CloseProjectDetail();
         }
         if (window.Gravitas.GoToLanding) {
+          var leavingApp = currentPagerState() === 1;
           window.Gravitas.GoToLanding({
             instant: !!opts.instant,
             fromRouter: true,
             force: true,
+            // Only reframe the hero when actually leaving the app
+            // (or aborting a mid-enter). Never on cold bootstrap.
+            restoreCamera: leavingApp,
           });
         }
         return;

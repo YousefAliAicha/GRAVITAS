@@ -131,17 +131,19 @@
     portalOverlay.setAttribute("aria-hidden", "true");
   }
 
-  function restoreHeroGatesView() {
+  function restoreHeroView() {
     if (!window.Gravitas.Hero) return;
-    if (window.Gravitas.Hero.snapToGates) {
-      window.Gravitas.Hero.snapToGates({
-        interactive: heroZoom === "gates",
-      });
+    if (heroZoom === "gates") {
+      if (window.Gravitas.Hero.snapToGates) {
+        window.Gravitas.Hero.snapToGates({ interactive: true });
+      } else if (window.Gravitas.Hero.toGates) {
+        window.Gravitas.Hero.toGates();
+        window.Gravitas.Hero.setInteractive(true);
+      }
       return;
     }
-    if (heroZoom === "gates" && window.Gravitas.Hero.toGates) {
-      window.Gravitas.Hero.toGates();
-      window.Gravitas.Hero.setInteractive(true);
+    if (window.Gravitas.Hero.snapToWide) {
+      window.Gravitas.Hero.snapToWide();
     } else if (window.Gravitas.Hero.toWide) {
       window.Gravitas.Hero.toWide();
       window.Gravitas.Hero.setInteractive(false);
@@ -153,11 +155,11 @@
     var instant = !!opts.instant;
     var force = !!opts.force || instant;
 
-    // Already on landing — still clear leftover portal / plunged camera
-    // (e.g. history Back during an interrupted gate enter).
+    // Already on landing — clear portal leftovers only.
+    // Do NOT snap the camera here (bootstrap would yank wide → gates).
     if (pagerState === 0 && !busy) {
       clearPortalOverlay();
-      restoreHeroGatesView();
+      if (opts.restoreCamera) restoreHeroView();
       if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
       if (!opts.fromRouter && window.Gravitas.Router) {
         window.Gravitas.Router.navigate(
@@ -204,7 +206,7 @@
 
     if (instant) {
       clearPortalOverlay();
-      restoreHeroGatesView();
+      restoreHeroView();
       if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
       finishLeave();
       return;
@@ -231,7 +233,7 @@
       });
     } else {
       clearPortalOverlay();
-      restoreHeroGatesView();
+      restoreHeroView();
       finishLeave();
     }
   }

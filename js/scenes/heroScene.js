@@ -3377,6 +3377,40 @@ function snapToGatesView(opts) {
   }
 }
 
+/** Instantly restore the wide hero framing. */
+function snapToWideView() {
+  clearGateFlyTimers();
+  isPortalFlyThrough = false;
+  activeEnteredGate = null;
+  gatesInteractive = false;
+  if (pickedTrack) {
+    setGateHover(pickedTrack, false);
+    pickedTrack = null;
+    renderer.domElement.classList.remove("gate-hovered");
+  }
+
+  camCurPos.copy(camWide.pos);
+  camCurLook.copy(camWide.look);
+  camCurFov = camWide.fov;
+  camFrom = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camTo = {
+    pos: camCurPos.clone(),
+    look: camCurLook.clone(),
+    fov: camCurFov,
+  };
+  camAnimStart = null;
+
+  camera.position.copy(camCurPos);
+  camera.up.set(0, 1, 0);
+  camera.lookAt(camCurLook);
+  camera.fov = camCurFov;
+  camera.updateProjectionMatrix();
+}
+
 renderer.domElement.addEventListener("click", function () {
   if (!gatesInteractive || isPortalFlyThrough || !pickedTrack) return;
   if (window.Gravitas.Hero && typeof window.Gravitas.Hero.onGateClick === "function") {
@@ -3472,6 +3506,7 @@ window.Gravitas.Hero = {
   flyIntoGate: flyIntoGate,
   flyOutOfGate: flyOutOfGate,
   snapToGates: snapToGatesView,
+  snapToWide: snapToWideView,
   setHover: setGateHover,
   setInteractive: function (on) {
     gatesInteractive = on;

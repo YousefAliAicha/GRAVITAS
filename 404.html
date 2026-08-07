@@ -29,7 +29,11 @@
         }
         var after = gi >= 0 ? segs.slice(gi + 1) : segs;
         var first = after[0] && after[0].toLowerCase();
-        if (first && ROUTES[first]) {
+        var last = after.length ? after[after.length - 1] : "";
+        // Missing static files (e.g. wrong relative PDF path) must show
+        // the real 404 — not soft-redirect into a DOC/TRACK route.
+        var looksLikeAsset = last.indexOf(".") !== -1;
+        if (first && ROUTES[first] && !looksLikeAsset) {
           try {
             sessionStorage.setItem("gravitas-redirect", path);
           } catch (e) {}
