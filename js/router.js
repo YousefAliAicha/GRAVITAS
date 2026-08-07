@@ -142,10 +142,11 @@
         } else if (window.Gravitas.CloseProjectDetail) {
           window.Gravitas.CloseProjectDetail();
         }
-        if (currentPagerState() === 1 && window.Gravitas.GoToLanding) {
+        if (window.Gravitas.GoToLanding) {
           window.Gravitas.GoToLanding({
             instant: !!opts.instant,
             fromRouter: true,
+            force: true,
           });
         }
         return;

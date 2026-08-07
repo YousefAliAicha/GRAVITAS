@@ -125,9 +125,50 @@
     }
   }
 
+  function clearPortalOverlay() {
+    if (!portalOverlay) return;
+    portalOverlay.classList.remove("active", "active-reverse");
+    portalOverlay.setAttribute("aria-hidden", "true");
+  }
+
+  function restoreHeroGatesView() {
+    if (!window.Gravitas.Hero) return;
+    if (window.Gravitas.Hero.snapToGates) {
+      window.Gravitas.Hero.snapToGates({
+        interactive: heroZoom === "gates",
+      });
+      return;
+    }
+    if (heroZoom === "gates" && window.Gravitas.Hero.toGates) {
+      window.Gravitas.Hero.toGates();
+      window.Gravitas.Hero.setInteractive(true);
+    } else if (window.Gravitas.Hero.toWide) {
+      window.Gravitas.Hero.toWide();
+      window.Gravitas.Hero.setInteractive(false);
+    }
+  }
+
   function goToLanding(opts) {
     opts = opts || {};
-    if (busy || pagerState === 0) return;
+    var instant = !!opts.instant;
+    var force = !!opts.force || instant;
+
+    // Already on landing — still clear leftover portal / plunged camera
+    // (e.g. history Back during an interrupted gate enter).
+    if (pagerState === 0 && !busy) {
+      clearPortalOverlay();
+      restoreHeroGatesView();
+      if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
+      if (!opts.fromRouter && window.Gravitas.Router) {
+        window.Gravitas.Router.navigate(
+          { surface: "landing" },
+          { skipApply: true },
+        );
+      }
+      return;
+    }
+
+    if (busy && !force) return;
     busy = true;
 
     if (window.Gravitas.CloseSecretDocs) {
@@ -161,11 +202,9 @@
       }
     }
 
-    if (opts.instant) {
-      if (portalOverlay) {
-        portalOverlay.classList.remove("active", "active-reverse");
-        portalOverlay.setAttribute("aria-hidden", "true");
-      }
+    if (instant) {
+      clearPortalOverlay();
+      restoreHeroGatesView();
       if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
       finishLeave();
       return;
@@ -187,14 +226,12 @@
       window.Gravitas.Hero.flyOutOfGate(function () {
         finishLeave();
         setTimeout(function () {
-          if (portalOverlay) {
-            portalOverlay.classList.remove("active-reverse");
-            portalOverlay.setAttribute("aria-hidden", "true");
-          }
+          clearPortalOverlay();
         }, C.pager.portalReverseClearMs);
       });
     } else {
-      if (portalOverlay) portalOverlay.classList.remove("active-reverse");
+      clearPortalOverlay();
+      restoreHeroGatesView();
       finishLeave();
     }
   }
