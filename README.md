@@ -75,6 +75,12 @@ git push
 
 Pages rebuilds automatically after each push.
 
+**Extras**
+- Custom `404.html` for missing paths
+- `offline.html` + `sw.js` for offline fallback
+- Open Graph image: `assets/og-image.png`
+- Resume PDF: `assets/Yousef-Ali-Aicha-Resume.pdf` (Contact → Resume)
+
 ## License
 
 Personal portfolio — all rights reserved unless noted otherwise.

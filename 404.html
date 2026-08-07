@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0908" />
+    <title>404 · Chamber empty — GRAVITAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --void: #0a0908;
+        --bone: #e8ddc7;
+        --muted: #9a9283;
+        --gold: #d1a14c;
+        --teal: #2bb8b0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 20px;
+        background:
+          radial-gradient(
+            ellipse at 50% 20%,
+            rgba(209, 161, 76, 0.08) 0%,
+            transparent 55%
+          ),
+          var(--void);
+        color: var(--bone);
+        font-family: "JetBrains Mono", Consolas, monospace;
+        text-align: center;
+      }
+      main {
+        max-width: 520px;
+      }
+      .code {
+        font-size: 0.75rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-family: "Cinzel", "Times New Roman", serif;
+        font-weight: 800;
+        font-size: clamp(2rem, 6vw, 3rem);
+        letter-spacing: 0.08em;
+      }
+      p {
+        margin: 0 0 28px;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.9rem;
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 20px;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.7rem;
+        font-weight: 600;
+        transition:
+          background 160ms linear,
+          color 160ms linear;
+      }
+      a:hover,
+      a:focus-visible {
+        background: rgba(209, 161, 76, 0.12);
+        color: var(--bone);
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="code">Error · 404</div>
+      <h1>GRAVITAS</h1>
+      <p>
+        This chamber is empty. The path you followed does not exist in the
+        excavation log — or it has been sealed.
+      </p>
+      <a href="./">Return to surface</a>
+    </main>
+  </body>
+</html>
