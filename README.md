@@ -76,10 +76,27 @@ git push
 Pages rebuilds automatically after each push.
 
 **Extras**
-- Custom `404.html` for missing paths
+- Custom `404.html` for missing paths (known app routes soft-redirect into the SPA)
 - `offline.html` + `sw.js` for offline fallback
 - Open Graph image: `assets/og-image.png`
 - Resume PDF: `assets/Yousef-Ali-Aicha-Resume.pdf` (Contact → Resume)
+
+### Replace your resume
+Drop a new PDF over the same file — keep the exact name:
+
+`assets/Yousef-Ali-Aicha-Resume.pdf`
+
+Then commit and push. Contact → Resume will open the new file (no HTML edits).
+
+### Shareable URLs
+Paths are live on Pages (History API + 404 fallback):
+
+- `https://yousefaliaicha.github.io/GRAVITAS/` — hero
+- `…/GRAVITAS/startup/` — Startup track
+- `…/GRAVITAS/startup/splice-engine/` — project detail
+- `…/GRAVITAS/about/`, `…/contact/`, `…/archive/`, etc.
+
+Browser Back (and the in-app Back control when you navigated inside the session) returns to the previous chamber — Contact → track, track → hero, project → track.
 
 ## License
 

@@ -1,5 +1,5 @@
 /* GRAVITAS offline shell — GitHub Pages project scope */
-const CACHE = "gravitas-shell-v1";
+const CACHE = "gravitas-shell-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,6 +10,7 @@ const ASSETS = [
   "./css/hero.css",
   "./css/app.css",
   "./css/responsive.css",
+  "./js/router.js",
   "./assets/og-image.png",
   "./assets/Yousef-Ali-Aicha-Resume.pdf",
 ];

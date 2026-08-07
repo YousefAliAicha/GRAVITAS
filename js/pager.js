@@ -39,11 +39,55 @@
     }
   }
 
-  function goToApp(selectedTrack) {
-    if (busy || pagerState === 1) return;
+  function goToApp(selectedTrack, opts) {
+    opts = opts || {};
+    if (busy || pagerState === 1) {
+      if (pagerState === 1 && !opts.skipSelect && window.Gravitas.SelectTrack) {
+        window.Gravitas.SelectTrack(selectedTrack, {
+          fromRouter: !!opts.fromRouter,
+        });
+      }
+      return;
+    }
     busy = true;
 
     hideMobileLanding();
+
+    function finishEnter(deferIdle) {
+      pagerState = 1;
+      pagerTrack.classList.add("in-app");
+      if (window.Gravitas.Hero) window.Gravitas.Hero.pause();
+      if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.resume();
+      if (!opts.skipSelect && window.Gravitas.SelectTrack) {
+        window.Gravitas.SelectTrack(selectedTrack, {
+          fromRouter: !!opts.fromRouter,
+        });
+      }
+      if (!opts.fromRouter && window.Gravitas.Router) {
+        window.Gravitas.Router.navigate(
+          { surface: "app", page: selectedTrack },
+          { skipApply: true },
+        );
+      }
+      if (!deferIdle) {
+        busy = false;
+        if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
+          window.Gravitas.ScanBay.resizeBay();
+        }
+        if (window.Gravitas.Hero && window.Gravitas.Hero.resize) {
+          window.Gravitas.Hero.resize();
+        }
+      }
+    }
+
+    if (opts.instant) {
+      if (portalOverlay) {
+        portalOverlay.classList.remove("active", "active-reverse");
+        portalOverlay.setAttribute("aria-hidden", "true");
+      }
+      finishEnter(false);
+      return;
+    }
 
     if (statusText)
       statusText.textContent = "TEMPORAL VECTOR · ENGAGED";
@@ -59,15 +103,7 @@
 
     if (window.Gravitas.Hero && window.Gravitas.Hero.flyIntoGate) {
       window.Gravitas.Hero.flyIntoGate(selectedTrack, function () {
-        pagerState = 1;
-        pagerTrack.classList.add("in-app");
-
-        if (window.Gravitas.Hero) window.Gravitas.Hero.pause();
-        if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.resume();
-        if (window.Gravitas.SelectTrack) {
-          window.Gravitas.SelectTrack(selectedTrack);
-        }
-
+        finishEnter(true);
         setTimeout(function () {
           if (portalOverlay) {
             portalOverlay.classList.remove("active");
@@ -83,29 +119,56 @@
         }, C.pager.portalClearMs);
       });
     } else {
-      // Instant fallback (mobile hero stub has no flyIntoGate)
-      pagerState = 1;
-      pagerTrack.classList.add("in-app");
-      if (window.Gravitas.Hero) window.Gravitas.Hero.pause();
-      if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.resume();
       if (portalOverlay) portalOverlay.classList.remove("active");
       if (portalOverlay) portalOverlay.setAttribute("aria-hidden", "true");
-      busy = false;
-      if (window.Gravitas.SelectTrack) {
-        window.Gravitas.SelectTrack(selectedTrack);
-      }
-      if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
-        window.Gravitas.ScanBay.resizeBay();
-      }
+      finishEnter(false);
     }
   }
 
-  function goToLanding() {
+  function goToLanding(opts) {
+    opts = opts || {};
     if (busy || pagerState === 0) return;
     busy = true;
 
     if (window.Gravitas.CloseSecretDocs) {
       window.Gravitas.CloseSecretDocs();
+    }
+    if (window.Gravitas.CloseProjectDetailSilent) {
+      window.Gravitas.CloseProjectDetailSilent();
+    }
+
+    function finishLeave() {
+      pagerState = 0;
+      pagerTrack.classList.remove("in-app");
+      if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.pause();
+      showMobileLanding();
+      if (!opts.fromRouter && window.Gravitas.Router) {
+        window.Gravitas.Router.navigate(
+          { surface: "landing" },
+          { skipApply: true },
+        );
+      }
+      busy = false;
+      if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
+        window.Gravitas.ScanBay.resizeBay();
+      }
+      if (window.Gravitas.Hero && window.Gravitas.Hero.resize) {
+        window.Gravitas.Hero.resize();
+      }
+      if (heroZoom === "gates" && window.Gravitas.Hero) {
+        window.Gravitas.Hero.setInteractive(true);
+        updateGateHighlight(selectedGateIndex);
+      }
+    }
+
+    if (opts.instant) {
+      if (portalOverlay) {
+        portalOverlay.classList.remove("active", "active-reverse");
+        portalOverlay.setAttribute("aria-hidden", "true");
+      }
+      if (window.Gravitas.Hero) window.Gravitas.Hero.resume();
+      finishLeave();
+      return;
     }
 
     if (statusText) statusText.textContent = "TEMPORAL RECALL · INITIATED";
@@ -122,40 +185,17 @@
 
     if (window.Gravitas.Hero && window.Gravitas.Hero.flyOutOfGate) {
       window.Gravitas.Hero.flyOutOfGate(function () {
-        pagerState = 0;
-        pagerTrack.classList.remove("in-app");
-
-        if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.pause();
-        showMobileLanding();
-
+        finishLeave();
         setTimeout(function () {
           if (portalOverlay) {
             portalOverlay.classList.remove("active-reverse");
             portalOverlay.setAttribute("aria-hidden", "true");
           }
-          busy = false;
-          if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.resizeBay) {
-            window.Gravitas.ScanBay.resizeBay();
-          }
-          if (window.Gravitas.Hero && window.Gravitas.Hero.resize) {
-            window.Gravitas.Hero.resize();
-          }
-          if (heroZoom === "gates" && window.Gravitas.Hero) {
-            window.Gravitas.Hero.setInteractive(true);
-            updateGateHighlight(selectedGateIndex);
-          }
         }, C.pager.portalReverseClearMs);
       });
     } else {
-      pagerState = 0;
-      pagerTrack.classList.remove("in-app");
-      if (window.Gravitas.ScanBay) window.Gravitas.ScanBay.pause();
       if (portalOverlay) portalOverlay.classList.remove("active-reverse");
-      showMobileLanding();
-      busy = false;
-      if (window.Gravitas.Hero && window.Gravitas.Hero.resize) {
-        window.Gravitas.Hero.resize();
-      }
+      finishLeave();
     }
   }
 
@@ -270,6 +310,14 @@
   if (backBtn) {
     backBtn.addEventListener("click", function (e) {
       e.stopPropagation();
+      if (
+        window.Gravitas.Router &&
+        window.Gravitas.Router.canHistoryBack &&
+        window.Gravitas.Router.canHistoryBack()
+      ) {
+        history.back();
+        return;
+      }
       goToLanding();
     });
   }
@@ -293,4 +341,8 @@
   window.Gravitas.PagerState = function () {
     return pagerState;
   };
+
+  if (window.Gravitas.Router && window.Gravitas.Router.bootstrap) {
+    window.Gravitas.Router.bootstrap();
+  }
 })();

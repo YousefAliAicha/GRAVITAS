@@ -236,8 +236,33 @@
     }
   }
 
-  function openProjectDetail(p, triggerEl) {
+  var detailPushedHistory = false;
+
+  function openProjectDetail(p, triggerEl, opts) {
+    if (
+      triggerEl &&
+      typeof triggerEl === "object" &&
+      !triggerEl.nodeType &&
+      (triggerEl.fromRouter || triggerEl.replace || triggerEl.skipApply)
+    ) {
+      opts = triggerEl;
+      triggerEl = null;
+    }
+    opts = opts || {};
     if (!projectDetail || detailBusy) return;
+    if (detailOpen && detailName && detailName.textContent === p.name) {
+      if (!opts.fromRouter && window.Gravitas.Router) {
+        window.Gravitas.Router.navigate(
+          {
+            surface: "app",
+            page: currentActiveTrack === "archive" ? "archive" : p.track,
+            project: p.name,
+          },
+          { skipApply: true, replace: true },
+        );
+      }
+      return;
+    }
     lastFocusedElement = triggerEl || document.activeElement;
 
     populateDetail(p);
@@ -246,6 +271,19 @@
     projectDetail.setAttribute("aria-hidden", "false");
     detailOpen = true;
     detailBusy = true;
+    detailPushedHistory = false;
+
+    if (!opts.fromRouter && window.Gravitas.Router) {
+      window.Gravitas.Router.navigate(
+        {
+          surface: "app",
+          page: currentActiveTrack === "archive" ? "archive" : p.track,
+          project: p.name,
+        },
+        { skipApply: true },
+      );
+      detailPushedHistory = true;
+    }
 
     // Hide list/bay slot so canvas remount never flashes through
     setStageCovered(true);
@@ -302,11 +340,39 @@
     });
   }
 
-  function closeProjectDetail() {
+  function closeProjectDetail(opts) {
+    opts = opts || {};
     if (!projectDetail || !detailOpen || detailBusy) return;
+
+    if (
+      opts.useHistoryBack &&
+      !opts.fromRouter &&
+      detailPushedHistory &&
+      history.state &&
+      history.state.gravitas &&
+      history.state.project
+    ) {
+      detailPushedHistory = false;
+      history.back();
+      return;
+    }
+
     detailOpen = false;
     detailBusy = true;
+    detailPushedHistory = false;
     projectDetail.setAttribute("aria-hidden", "true");
+
+    if (
+      !opts.fromRouter &&
+      !opts.silent &&
+      !opts.skipHistory &&
+      window.Gravitas.Router
+    ) {
+      window.Gravitas.Router.navigate(
+        { surface: "app", page: currentActiveTrack || "systems" },
+        { skipApply: true, replace: true },
+      );
+    }
 
     if (window.Gravitas.ScanBay && window.Gravitas.ScanBay.hoverProject) {
       window.Gravitas.ScanBay.hoverProject(null);
@@ -367,7 +433,7 @@
   if (detailBack) {
     detailBack.addEventListener("click", function (e) {
       e.stopPropagation();
-      closeProjectDetail();
+      closeProjectDetail({ useHistoryBack: true });
     });
   }
 
@@ -379,7 +445,7 @@
         if (!detailOpen) return;
         if (e.deltaY < -10 && detailScroll.scrollTop <= 0) {
           e.preventDefault();
-          closeProjectDetail();
+          closeProjectDetail({ useHistoryBack: true });
         }
       },
       { passive: false },
@@ -401,7 +467,7 @@
         var dy = detailTouchStartY - e.touches[0].clientY;
         if (dy < -45 && detailScroll.scrollTop <= 0) {
           detailTouchStartY = null;
-          closeProjectDetail();
+          closeProjectDetail({ useHistoryBack: true });
         }
       },
       { passive: true },
@@ -416,14 +482,14 @@
     if (detailOpen) {
       if (e.key === "Escape") {
         e.preventDefault();
-        closeProjectDetail();
+        closeProjectDetail({ useHistoryBack: true });
         return;
       }
 
       if (e.key === "ArrowUp") {
         if (detailScroll && detailScroll.scrollTop <= 5) {
           e.preventDefault();
-          closeProjectDetail();
+          closeProjectDetail({ useHistoryBack: true });
         } else if (detailScroll) {
           e.preventDefault();
           detailScroll.scrollBy({ top: -80, behavior: "smooth" });
@@ -492,16 +558,7 @@
 
       e.preventDefault();
       var targetKey = allNavDestinations[nextIdx];
-
-      if (targetKey === "about") {
-        currentActiveTrack = "about";
-        scrollToView("view-about");
-      } else if (targetKey === "contact") {
-        currentActiveTrack = "contact";
-        scrollToView("view-contact");
-      } else {
-        selectTrack(targetKey);
-      }
+      selectTrack(targetKey);
       return;
     }
 
@@ -740,13 +797,21 @@
     }
   }
 
-  function selectTrack(key) {
+  function selectTrack(key, opts) {
+    opts = opts || {};
     currentActiveTrack = key;
     window.Gravitas = window.Gravitas || {};
     window.Gravitas.CurrentTrack = key;
-    closeProjectDetail();
+    closeProjectDetail({ fromRouter: true, silent: true, skipHistory: true });
     if (key !== "essays" && key !== "favorites") {
       closeSecretDocs();
+    }
+
+    if (!opts.fromRouter && window.Gravitas.Router) {
+      window.Gravitas.Router.navigate(
+        { surface: "app", page: key },
+        { skipApply: true },
+      );
     }
 
     navItems.forEach(function (item) {
@@ -814,6 +879,12 @@
   window.Gravitas = window.Gravitas || {};
   window.Gravitas.SelectTrack = selectTrack;
   window.Gravitas.CloseSecretDocs = closeSecretDocs;
+  window.Gravitas.OpenProjectDetail = openProjectDetail;
+  window.Gravitas.CloseProjectDetail = closeProjectDetail;
+  window.Gravitas.CloseProjectDetailSilent = function () {
+    if (!detailOpen) return;
+    closeProjectDetail({ fromRouter: true, silent: true, skipHistory: true });
+  };
 
   if (brandRow && !IS_MOBILE) {
     brandRow.addEventListener("click", function (e) {
@@ -836,8 +907,18 @@
   footBtns.forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
-      closeProjectDetail();
       var target = btn.dataset.scrollTo;
+      var page =
+        target === "view-about"
+          ? "about"
+          : target === "view-contact"
+            ? "contact"
+            : null;
+      if (page && window.Gravitas.Router) {
+        window.Gravitas.Router.navigate({ surface: "app", page: page });
+        return;
+      }
+      closeProjectDetail({ fromRouter: true, skipHistory: true });
       if (target === "view-about") currentActiveTrack = "about";
       if (target === "view-contact") currentActiveTrack = "contact";
       if (target) scrollToView(target);

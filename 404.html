@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0908" />
     <title>404 · Chamber empty — GRAVITAS</title>
+    <script>
+      /* GitHub Pages SPA fallback: known app routes redirect into index.html */
+      (function () {
+        var ROUTES = {
+          systems: 1,
+          creative: 1,
+          startup: 1,
+          archive: 1,
+          about: 1,
+          contact: 1,
+          essays: 1,
+          favorites: 1,
+        };
+        var path = location.pathname || "";
+        var segs = path.split("/").filter(Boolean);
+        var gi = -1;
+        for (var i = 0; i < segs.length; i++) {
+          if (segs[i].toLowerCase() === "gravitas") {
+            gi = i;
+            break;
+          }
+        }
+        var after = gi >= 0 ? segs.slice(gi + 1) : segs;
+        var first = after[0] && after[0].toLowerCase();
+        if (first && ROUTES[first]) {
+          try {
+            sessionStorage.setItem("gravitas-redirect", path);
+          } catch (e) {}
+          var root =
+            gi >= 0
+              ? "/" + segs.slice(0, gi + 1).join("/") + "/"
+              : path.replace(/\/[^/]*$/, "/");
+          location.replace(root);
+          return;
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
