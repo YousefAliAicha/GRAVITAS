@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#15120e"/>
+      <stop offset="70%" stop-color="#0a0908"/>
+      <stop offset="100%" stop-color="#050504"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Emblem: slightly larger, still delicate -->
+  <g transform="translate(600 214)" fill="none">
+    <rect x="-46" y="-46" width="92" height="92" stroke="#d1a14c" stroke-width="2"/>
+    <rect x="-46" y="-46" width="92" height="92" stroke="#d1a14c" stroke-width="2" transform="rotate(45)"/>
+    <circle r="22" stroke="#2bb8b0" stroke-width="2"/>
+  </g>
+
+  <!-- Wordmark: smaller footprint so it does not fill the 1200 width -->
+  <text
+    x="600"
+    y="348"
+    text-anchor="middle"
+    fill="#e8ddc7"
+    font-family="Cinzel, 'Times New Roman', Georgia, serif"
+    font-size="58"
+    font-weight="700"
+    letter-spacing="2"
+  >GRAVITAS</text>
+
+  <line x1="545" y1="372" x2="655" y2="372" stroke="#8a682c" stroke-width="1"/>
+
+  <text
+    x="600"
+    y="402"
+    text-anchor="middle"
+    fill="#d1a14c"
+    font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"
+    font-size="14"
+    font-weight="500"
+    letter-spacing="1"
+  >Systems  /  Creative Tech  /  Startup</text>
+</svg>

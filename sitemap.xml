@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/</loc>
+    <loc>https://yousefaliaicha.me/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/systems/</loc>
+    <loc>https://yousefaliaicha.me/systems/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/creative/</loc>
+    <loc>https://yousefaliaicha.me/creative/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/startup/</loc>
+    <loc>https://yousefaliaicha.me/startup/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/archive/</loc>
+    <loc>https://yousefaliaicha.me/archive/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/about/</loc>
+    <loc>https://yousefaliaicha.me/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/contact/</loc>
+    <loc>https://yousefaliaicha.me/contact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/systems/aegis/</loc>
+    <loc>https://yousefaliaicha.me/systems/aegis/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/creative/rayborn/</loc>
+    <loc>https://yousefaliaicha.me/creative/rayborn/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yousefaliaicha.github.io/GRAVITAS/startup/splice-engine/</loc>
+    <loc>https://yousefaliaicha.me/startup/splice-engine/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

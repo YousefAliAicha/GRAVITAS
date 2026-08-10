@@ -6,7 +6,7 @@ Three tracks — **Systems**, **Creative Tech**, **Startup** — presented as a
 static site with a Three.js landing dig site, a scan-bay dossier, and
 shareable deep links to every chamber and project.
 
-**Live:** [https://yousefaliaicha.github.io/GRAVITAS/](https://yousefaliaicha.github.io/GRAVITAS/)
+**Live:** [https://yousefaliaicha.me/](https://yousefaliaicha.me/)
 
 ---
 
