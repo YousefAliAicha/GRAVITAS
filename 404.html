@@ -37,10 +37,10 @@
           try {
             sessionStorage.setItem("gravitas-redirect", path);
           } catch (e) {}
+          // Project Pages keep /GRAVITAS/; custom-domain apex must land on /
+          // (trailing-slash paths break a naive last-segment strip and loop).
           var root =
-            gi >= 0
-              ? "/" + segs.slice(0, gi + 1).join("/") + "/"
-              : path.replace(/\/[^/]*$/, "/");
+            gi >= 0 ? "/" + segs.slice(0, gi + 1).join("/") + "/" : "/";
           location.replace(root);
           return;
         }

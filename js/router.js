@@ -1,13 +1,10 @@
 /**
- * Shareable path router for GitHub Pages (/GRAVITAS/...).
- * Local file:// or plain static servers (no /GRAVITAS base) use hash routes
- * so portal clicks never navigate away from index.html:
+ * Shareable path router for GitHub Pages.
+ * On project Pages (/GRAVITAS/...) or a custom-domain apex:
+ *   /startup/ · /startup/splice-engine/ · /about/
+ * Local file:// or localhost static servers (no SPA fallback) use hash routes:
  *   index.html#/startup/
  *   index.html#/startup/splice-engine/
- *
- * On Pages with base /GRAVITAS:
- *   /GRAVITAS/startup/
- *   /GRAVITAS/startup/splice-engine/
  */
 (function () {
   var DOCS = { about: 1, contact: 1, essays: 1, favorites: 1 };
@@ -24,8 +21,15 @@
   }
 
   var BASE = detectBase();
-  // Pretty path URLs need SPA fallback (Pages 404.html). Local/file has none.
-  var USE_HASH = !BASE || location.protocol === "file:";
+  // Pretty path URLs need SPA fallback (Pages 404.html). file:// and plain
+  // localhost static servers have none — use hash there. Custom-domain apex
+  // (BASE "") and /GRAVITAS project Pages use real paths.
+  var host = (location.hostname || "").toLowerCase();
+  var localHost = host === "localhost" || host === "127.0.0.1" || host === "";
+  var USE_HASH =
+    location.protocol === "file:" ||
+    /\/index\.html?$/i.test(location.pathname || "") ||
+    (localHost && !BASE);
 
   function slugify(name) {
     return String(name || "")

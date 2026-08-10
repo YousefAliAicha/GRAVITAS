@@ -23,15 +23,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Write private easter-egg config
+      - name: Apply easter-egg config override (optional)
         env:
           EASTER_EGGS_CONFIG: ${{ secrets.EASTER_EGGS_CONFIG }}
         run: |
-          if [ -z "$EASTER_EGGS_CONFIG" ]; then
-            echo "Set repo secret EASTER_EGGS_CONFIG to the contents of easter-eggs.config.js" >&2
-            exit 1
+          if [ -n "$EASTER_EGGS_CONFIG" ]; then
+            printf '%s\n' "$EASTER_EGGS_CONFIG" > js/config/easter-eggs.config.js
+            echo "Wrote easter-eggs.config.js from EASTER_EGGS_CONFIG secret"
+          elif [ -f js/config/easter-eggs.config.js ]; then
+            echo "Using committed js/config/easter-eggs.config.js"
+          else
+            echo "Missing easter-eggs.config.js and secret; copying example placeholders" >&2
+            cp js/config/easter-eggs.config.example.js js/config/easter-eggs.config.js
           fi
-          printf '%s\n' "$EASTER_EGGS_CONFIG" > js/config/easter-eggs.config.js
 
       - uses: actions/configure-pages@v5
 

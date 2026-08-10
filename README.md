@@ -19,7 +19,7 @@ shareable deep links to every chamber and project.
 | **History API on Pages, hash routes locally** | Pretty URLs (`/GRAVITAS/startup/splice-engine/`) with a `404.html` SPA fallback on GitHub Pages. Local `file://` / plain static servers use `#/startup/…` so navigation never leaves `index.html`. |
 | **Hero sources in `js/scenes/hero/*.js` + `build-hero.js`** | Editable modules for lighting/materials/gates; concatenated into `heroScene.js` so the browser still loads one closure with shared scene state (no bundler required). |
 | **Mobile skips WebGL** | Phones get a scrollable dossier + gate picker. Desktop keeps the excavation experience. Same content model, different presentation. |
-| **Easter-egg config gitignored + CI secret** | Codes never live in git history; Actions writes `easter-eggs.config.js` from `EASTER_EGGS_CONFIG` at deploy time. |
+| **Easter-egg config** | `js/config/easter-eggs.config.js` ships with the site. Optional Actions secret `EASTER_EGGS_CONFIG` can override it at deploy time. |
 | **Service worker + offline shell** | Soft offline fallback for the shell assets; not a full offline app. |
 
 ---
@@ -76,14 +76,9 @@ node js/scenes/build-hero.js
 
 This regenerates `js/scenes/heroScene.js` (do not hand-edit the generated file).
 
-### Easter eggs (local)
+### Easter eggs
 
-```bash
-# Windows
-copy js\config\easter-eggs.config.example.js js\config\easter-eggs.config.js
-```
-
-Edit the copy with real codes. It is gitignored.
+Edit `js/config/easter-eggs.config.js` (see `.example.js` for the shape). Optional: set repo secret `EASTER_EGGS_CONFIG` to override that file during Actions deploys.
 
 ---
 
@@ -153,11 +148,11 @@ GRAVITAS/
 Pushes to `main` run [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml):
 
 1. Checkout  
-2. Write `js/config/easter-eggs.config.js` from secret `EASTER_EGGS_CONFIG`  
+2. Optionally overwrite `js/config/easter-eggs.config.js` from secret `EASTER_EGGS_CONFIG`  
 3. Upload the repo root as the Pages artifact  
 4. Deploy  
 
-Set the secret to the **full file contents** of your local easter-egg config (same shape as the `.example.js`).
+If GitHub Pages is set to **Deploy from a branch**, the committed config is what the live site serves. If it is set to **GitHub Actions**, this workflow publishes the artifact (with optional secret override).
 
 ---
 

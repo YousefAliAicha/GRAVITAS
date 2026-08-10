@@ -1,6 +1,5 @@
-// Easter-egg trigger template (safe to commit).
-// Copy to easter-eggs.config.js and put your real codes there:
-//   copy js\config\easter-eggs.config.example.js js\config\easter-eggs.config.js
+// Easter-egg trigger template.
+// Real codes live in easter-eggs.config.js (same shape).
 // Letter sequences only — arrow keys fight landing ↑↓←→ controls.
 
 window.GravitasEasterEggs = {
